@@ -3,9 +3,11 @@ package com.meditec.datastructures;
 
 public class SplayNode<S> {
 
-    SplayNode left, right, parent;
-    int key;
-    S element;
+    public SplayNode left;
+	public SplayNode right;
+	public SplayNode parent;
+    public int key;
+    public S element;
 
     /** Constructor **/
     public SplayNode(S data, int key)

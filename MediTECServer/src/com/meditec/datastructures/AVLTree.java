@@ -3,6 +3,7 @@ package com.meditec.datastructures;
 public class AVLTree<A extends Comparable<? super A>> {
 	
 	private AVLNode<A> root;
+	private int count = 0;
 	
 	public AVLTree(){
 		root = null;
@@ -20,12 +21,13 @@ public class AVLTree<A extends Comparable<? super A>> {
 		int result = data.compareTo(node.data());
 		
 		if (result < 0) {
-			node.set_left(insert(data, node.get_left()));
+			node.set_left(insert(data, node.left()));
 		}else if(result > 0){
-			node.set_right(insert(data, node.get_right()));
+			node.set_right(insert(data, node.right()));
 		}else{
 			//
 		}
+		count++;
 		return balance(node);
 	}
 	
@@ -42,20 +44,20 @@ public class AVLTree<A extends Comparable<? super A>> {
 		int result = data.compareTo(node.data());
 		
 		if (result < 0) {
-			node.set_left(remove(data, node.get_left()));
+			node.set_left(remove(data, node.left()));
 		}else if(result > 0){
-			node.set_right(remove(data, node.get_right()));
-		}else if (node.get_left() != null && node.get_right() != null) {
-			node.set_data(find_min(node.get_right()).data());
-			node.set_right(remove(node.data(), node.get_right()));
+			node.set_right(remove(data, node.right()));
+		}else if (node.left() != null && node.right() != null) {
+			node.set_data(find_min(node.right()).data());
+			node.set_right(remove(node.data(), node.right()));
 		}else{
-			if (node.get_left() != null) {
-				node = node.get_left();
+			if (node.left() != null) {
+				node = node.left();
 			}else{
-				node = node.get_right();
+				node = node.right();
 			}
 		}
-		
+		count--;
 		return balance(node);
 	}
 	
@@ -66,54 +68,54 @@ public class AVLTree<A extends Comparable<? super A>> {
 		if (node == null) {
 			return node;
 		}
-		if (height(node.get_left()) - height(node.get_right()) > allow_imbalance){
-			if (height(node.get_left().get_left()) >= height(node.get_left().get_right())) {
+		if (height(node.left()) - height(node.right()) > allow_imbalance){
+			if (height(node.left().left()) >= height(node.left().right())) {
 				node = rotate_with_left_child(node);
 			}else {
 				node = double_rotate_with_left_child(node);
 			}
 		}else {
-			if (height(node.get_right()) - height(node.get_right()) > allow_imbalance){
-				if (height(node.get_right()) >= height(node.get_left())) {
+			if (height(node.right()) - height(node.right()) > allow_imbalance){
+				if (height(node.right()) >= height(node.left())) {
 					node = rotate_with_right_child(node);
 				}else {
 					node = double_rotate_with_right_child(node);
 				}
 			}
 		}
-		node.set_height(Math.max(height(node.get_left()), height(node.get_right()) + 1));
+		node.set_height(Math.max(height(node.left()), height(node.right()) + 1));
 		return node;	
 	}
 	
     private AVLNode<A> rotate_with_left_child( AVLNode<A> k2 )
     {
-        AVLNode<A> k1 = k2.get_left();
-        k2.set_left(k1.get_right());
+        AVLNode<A> k1 = k2.left();
+        k2.set_left(k1.right());
         k1.set_right(k2);
-        k2.set_height(Math.max( height( k2.get_left() ), height( k2.get_right() ) ) + 1);
-        k1.set_height(Math.max( height( k1.get_left() ), k2.height()) + 1); 
+        k2.set_height(Math.max( height( k2.left() ), height( k2.right() ) ) + 1);
+        k1.set_height(Math.max( height( k1.left() ), k2.height()) + 1); 
         return k1;
     }
 
     private AVLNode<A> rotate_with_right_child( AVLNode<A> k1 )
     {
-        AVLNode<A> k2 = k1.get_right();
-        k1.set_right(k2.get_left());
+        AVLNode<A> k2 = k1.right();
+        k1.set_right(k2.left());
         k2.set_left(k1);
-        k1.set_height(Math.max( height( k1.get_left() ), height( k1.get_right() ) ) + 1);
-        k2.set_height(Math.max( height( k2.get_right() ), k1.height() ) + 1);
+        k1.set_height(Math.max( height( k1.left() ), height( k1.right() ) ) + 1);
+        k2.set_height(Math.max( height( k2.right() ), k1.height() ) + 1);
         return k2;
     }
 
     private AVLNode<A> double_rotate_with_left_child( AVLNode<A> k3 )
     {
-        k3.set_left(rotate_with_right_child(k3.get_left()));
+        k3.set_left(rotate_with_right_child(k3.left()));
         return rotate_with_left_child( k3 );
     }
 
     private AVLNode<A> double_rotate_with_right_child( AVLNode<A> k1 )
     {
-        k1.set_right(rotate_with_left_child(k1.get_right()));
+        k1.set_right(rotate_with_left_child(k1.right()));
         return rotate_with_right_child(k1);
     }
 	
@@ -130,8 +132,8 @@ public class AVLTree<A extends Comparable<? super A>> {
 			return node;
 		}
 		
-		while(node.get_left() != null){
-			node = node.get_left();
+		while(node.left() != null){
+			node = node.left();
 		}
 		return node;
 	}
@@ -141,8 +143,8 @@ public class AVLTree<A extends Comparable<? super A>> {
 			return node;
 		}
 		
-		while(node.get_right() != null){
-			node = node.get_right();
+		while(node.right() != null){
+			node = node.right();
 		}
 		return node;
 		
@@ -150,9 +152,9 @@ public class AVLTree<A extends Comparable<? super A>> {
 	
 	public void print(AVLNode<A> node){
 		if(node != null){
-			print(node.get_left());
+			print(node.left());
 			System.out.println(node.data());
-			print(node.get_right());
+			print(node.right());
 		}
 	}
 	
@@ -167,9 +169,9 @@ public class AVLTree<A extends Comparable<? super A>> {
         while ((node != null) && !found){
 
             if (data.compareTo(node.data()) < 0){
-                node = node.get_left();
+                node = node.left();
             }else if (data.compareTo(node.data()) > 0){
-                node = node.get_right();
+                node = node.right();
             }else {
                 found = true;
                 break;
@@ -177,6 +179,14 @@ public class AVLTree<A extends Comparable<? super A>> {
             found = find(data,node);
         }
         return found;
+    }
+    
+    public AVLNode<A> root() {
+		return root;
+	}
+    
+    public int count(){
+    	return count;
     }
     
 

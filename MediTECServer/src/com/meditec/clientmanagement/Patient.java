@@ -22,7 +22,7 @@ public class Patient implements Comparable<Patient>{
 		this.name = name;
 		this.email = email;
 		this.clinic_case = null;
-		this.patient_code = IdentifiersGenerator.generate_new_patient_key(4);
+		this.patient_code = IdentifiersGenerator.generate_new_key(4);
 		
 		System.out.println(name);
 		System.out.println(email);
@@ -39,6 +39,7 @@ public class Patient implements Comparable<Patient>{
 	public void set_clinic_case(ClinicCase new_case){
 		this.clinic_case = new_case;
 	}
+	
 	
 	public int code(){
 		return this.patient_code;

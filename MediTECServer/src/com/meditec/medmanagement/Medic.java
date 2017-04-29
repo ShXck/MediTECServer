@@ -15,6 +15,7 @@ public class Medic implements Comparable<Medic>{
 	@XStreamAlias("name")
 	private String name;
 	
+	
 	@XStreamAlias("email")
 	private String email;
 	

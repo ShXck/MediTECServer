@@ -255,8 +255,10 @@ public class SplayTree<S extends Comparable<S>> {
             System.out.print(r.element +" ");
         }
     }
-
-
-
-
+    
+    public SplayNode<S> root(){
+    	return root;
+    }
+    
+    
 }

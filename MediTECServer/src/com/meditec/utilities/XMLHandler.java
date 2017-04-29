@@ -2,6 +2,7 @@ package com.meditec.utilities;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.file.FileSystemNotFoundException;
 
 import com.meditec.clientmanagement.Patient;
@@ -20,7 +21,7 @@ public class XMLHandler {
 	public static void serialize_patient(Patient patient){
 		
 		try{
-			FileOutputStream fs = new FileOutputStream("xmlfiles/Patients.xml");
+			FileOutputStream fs = new FileOutputStream("/Patients.xml");
 			xStream.toXML(patient,fs);
 		}catch (FileNotFoundException e) {
 			e.getMessage();
@@ -29,7 +30,7 @@ public class XMLHandler {
 	
 	public static void serialize_medic(Medic medic){
 		try{
-			FileOutputStream fs = new FileOutputStream("xmlfiles/Medics.xml");
+			FileOutputStream fs = new FileOutputStream("/Medics.xml");
 			xStream.toXML(medic,fs);
 		}catch (FileNotFoundException e) {
 			e.getMessage();

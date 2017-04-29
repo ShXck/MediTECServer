@@ -13,20 +13,21 @@ public class IdentifiersGenerator {
 		StringBuilder sb = new StringBuilder(lenght);
 		
 		for(int i = 0; i < lenght; i++){
-			sb.append(rd.nextInt(OPTIONS.length()));
+			sb.append(OPTIONS.charAt(rd.nextInt(OPTIONS.length())));
 		}
 		return sb.toString();	
 	}
 	
-	public static int generate_new_patient_key(int lenght){
+	public static int generate_new_key(int lenght){
 		
 		final String OPTIONS = "0123456789";
 		
 		StringBuilder sb = new StringBuilder(lenght);
 		
 		for(int i = 0; i < lenght; i++){
-			sb.append(rd.nextInt(OPTIONS.length()));
+			sb.append(OPTIONS.charAt(rd.nextInt(OPTIONS.length())));
 		}
 		return Integer.parseInt(sb.toString());
 	}
+	
 }

@@ -34,7 +34,7 @@ public class AVLNode<T> {
         this.data = data;
     }
 
-    public AVLNode<T> get_left() {
+    public AVLNode<T> left() {
         return left;
     }
 
@@ -42,7 +42,7 @@ public class AVLNode<T> {
         this.left = left;
     }
 
-    public AVLNode<T> get_right() {
+    public AVLNode<T> right() {
         return right;
     }
 
