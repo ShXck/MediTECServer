@@ -1,39 +1,42 @@
 package com.meditec.utilities;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.nio.file.FileSystemNotFoundException;
+import java.io.File;
 
-import com.meditec.clientmanagement.Patient;
-import com.meditec.datastructures.List;
-import com.meditec.medmanagement.Medic;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import com.meditec.medmanagement.Medication;
 
 public class XMLHandler {
 	
-	private static XStream xStream = new XStream(new DomDriver("UTF-8"));
-	private static List<Patient> deserialized_patients = new List<>();
-	
-	public static void serialize_patient(Patient patient){
-		
+	public static Medication find_medication(String name){
 		try{
-			FileOutputStream fs = new FileOutputStream("/Patients.xml");
-			xStream.toXML(patient,fs);
-		}catch (FileNotFoundException e) {
-			e.getMessage();
+			File medication_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/medication.xml");
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(medication_file);
+			
+			document.getDocumentElement().normalize();
+			
+			NodeList node_list = document.getElementsByTagName("medication");
+			
+			for(int temp = 0; temp < node_list.getLength(); temp++){
+				Node node = node_list.item(temp);
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) node;
+					if (element.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(name)) {
+						System.out.println("Found " + element.getElementsByTagName("name").item(0).getTextContent());
+						return new Medication((element.getElementsByTagName("name").item(0).getTextContent()) ,  element.getElementsByTagName("price").item(0).getTextContent(),  element.getAttribute("id"));
+					}
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-	}
-	
-	public static void serialize_medic(Medic medic){
-		try{
-			FileOutputStream fs = new FileOutputStream("/Medics.xml");
-			xStream.toXML(medic,fs);
-		}catch (FileNotFoundException e) {
-			e.getMessage();
-		}
+		return null;
 	}
 }

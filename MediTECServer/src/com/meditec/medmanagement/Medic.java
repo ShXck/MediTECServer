@@ -4,19 +4,14 @@ import com.meditec.utilities.IdentifiersGenerator;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
-@XStreamAlias("medic")
 public class Medic implements Comparable<Medic>{
 	
-	@XStreamAlias("code")
 	private String code;
 	
 	private Agenda agenda;
 	
-	@XStreamAlias("name")
 	private String name;
 	
-	
-	@XStreamAlias("email")
 	private String email;
 	
 	public Medic(String name, String email){

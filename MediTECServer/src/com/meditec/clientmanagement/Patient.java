@@ -1,31 +1,23 @@
 package com.meditec.clientmanagement;
+import com.meditec.medmanagement.Appointment;
 import com.meditec.medmanagement.ClinicCase;
 import com.meditec.utilities.IdentifiersGenerator;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("patient")
 public class Patient implements Comparable<Patient>{
 	
-	@XStreamAlias("name")
 	private String name;
-	
-	@XStreamAlias("email")
 	private String email;
-	
-	@XStreamAlias("code")
 	private int patient_code;
-	
 	private ClinicCase clinic_case;
-	
+	private Appointment current_appointment;
 	
 	public Patient(String name, String email){
 		this.name = name;
 		this.email = email;
 		this.clinic_case = null;
 		this.patient_code = IdentifiersGenerator.generate_new_key(4);
-		
-		System.out.println(name);
-		System.out.println(email);
+		this.current_appointment = null;
 	}
 	
 	public String name(){
@@ -47,6 +39,14 @@ public class Patient implements Comparable<Patient>{
 	
 	public String email(){
 		return this.email;
+	}
+	
+	public Appointment current_appointment(){
+		return current_appointment;
+	}
+	
+	public void set_current_appointment(Appointment appointment) {
+		this.current_appointment = appointment;
 	}
 
 	@Override

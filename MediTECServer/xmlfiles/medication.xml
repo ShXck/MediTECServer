@@ -1,0 +1,110 @@
+<medicationList>
+	<medication id = "0001">
+		<name>Acetaminofen</name>
+		<price>500</price>
+	</medication>
+	<medication id = "0002">
+		<name>Acertol</name>
+		<price>20000</price>
+	</medication>
+	<medication id = "0003">
+		<name>Absorlent</name>
+		<price>12000</price>
+	</medication>
+	<medication id = "0004">
+		<name>Aciclovir</name>
+		<price>15000</price>
+	</medication>
+	<medication id = "0005">
+		<name>Aciphex</name>
+		<price>7500</price>
+	</medication>
+	<medication id = "0006">
+		<name>Acrel</name>
+		<price>2000</price>
+	</medication>
+	<medication id = "0007">
+		<name>Actonel</name>
+		<price>35000</price>
+	</medication>
+	<medication id = "0008">
+		<name>Adulax</name>
+		<price>22500</price>
+	</medication>	
+	<medication id = "0009">
+		<name>Aerius</name>
+		<price>60000</price>
+	</medication>
+	<medication id = "0010">
+		<name>Alcis</name>
+		<price>36000</price>
+	</medication>
+	<medication id = "0011">
+		<name>Aerius</name>
+		<price>60000</price>
+	</medication>
+	<medication id = "0012">
+		<name>Biocef</name>
+		<price>10000</price>
+	</medication>
+	<medication id = "0013">
+		<name>Biolid</name>
+		<price>9200</price>
+	</medication>
+	<medication id = "0014">
+		<name>Brionil</name>
+		<price>17000</price>
+	</medication>
+	<medication id = "0015">
+		<name>Britapen</name>
+		<price>25000</price>
+	</medication>
+	<medication id = "0016">
+		<name>CalcioD</name>
+		<price>1000</price>
+	</medication>
+	<medication id = "0017">
+		<name>Canesten</name>
+		<price>5000</price>
+	</medication>
+	<medication id = "0018">
+		<name>Cefoxitina</name>
+		<price>55000</price>
+	</medication>
+	<medication id = "0019">
+		<name>Cellcept</name>
+		<price>14000</price>
+	</medication>
+	<medication id = "0020">
+		<name>Biolid</name>
+		<price>9200</price>
+	</medication>
+	<medication id = "0021">
+		<name>Dalgen</name>
+		<price>14500</price>
+	</medication>
+	<medication id = "0022">
+		<name>Daonil</name>
+		<price>45000</price>
+	</medication>
+	<medication id = "0023">
+		<name>Dexafree</name>
+		<price>30000</price>
+	</medication>
+	<medication id = "0024">
+		<name>Dihydergot</name>
+		<price>150000</price>
+	</medication>
+	<medication id = "0025">
+		<name>Elocom</name>
+		<price>8900</price>
+	</medication>
+	<medication id = "0026">
+		<name>Enit</name>
+		<price>45500</price>
+	</medication>
+	<medication id = "0027">
+		<name>Esertia</name>
+		<price>5700</price>
+	</medication>
+</medicationList>

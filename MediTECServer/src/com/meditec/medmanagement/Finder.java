@@ -93,7 +93,6 @@ public class Finder {
 	public static JSONObject get_medic_appointments(String id){
 		Medic medic = find_medic_by_code(id);
 		return get_medic_appointments(medic.agenda().appointments().root(), new JSONObject(), 1, medic);
-	
 	}
 	
 	private static JSONObject get_medic_appointments(AVLNode<Appointment> node, JSONObject json, int count, Medic medic){
@@ -125,4 +124,18 @@ public class Finder {
 			return null;
 		}
 	}
+	
+	public static int find_cost(AVLTree<Medication> medication){
+		return cost(medication.root(), 0);
+	}
+	
+	private static int cost(AVLNode<Medication> node, int total){
+		 if (node != null){
+			cost(node.left(), total += node.data().price());
+			cost(node.right(), total += node.data().price());
+	     }
+		 System.out.println(total);
+		 return total;
+	}
+	
 }

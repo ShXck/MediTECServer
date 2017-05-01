@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 import com.meditec.datastructures.SplayTree;
 import com.meditec.medmanagement.Medic;
+import com.meditec.utilities.IdentifiersGenerator;
 import com.meditec.utilities.JSONHandler;
 import com.meditec.utilities.XMLHandler;
 import com.meditec.medmanagement.Appointment;
@@ -21,7 +22,6 @@ import com.meditec.medmanagement.Finder;
 public class MedicResources {
 	
 	public static SplayTree<Medic> medic_tree = new SplayTree<>();
-	private int key_values = 1;
 	
 	@POST
 	@Path("/login")
@@ -69,34 +69,28 @@ public class MedicResources {
 	public Response edit_appointment_info(String updated_info, @PathParam("id") String id, @PathParam("patient") String patient){
 		Medic medic = Finder.find_medic_by_code(id);
 		Appointment appointment = medic.agenda().get_appointment_info(patient);
-		//TODO: Modify appointment with the information given in the dr app.
-		medic.agenda().edit_appointment_info(appointment, new Appointment(0, 0, 0, patient));
+		medic.agenda().edit_appointment(JSONHandler.get_updated_symptoms(updated_info), JSONHandler.get_updated_medication(updated_info), JSONHandler.get_updated_tests(updated_info), JSONHandler.get_updated_cases(updated_info), appointment);
+		return Response.ok("Appointment edited!").build();
 	}
 	
-	
 	private void process_medic(Medic medic){
-		medic_tree.insert(medic,key_values);
-		key_values++;
-		XMLHandler.serialize_medic(medic);
+		medic_tree.insert(medic, IdentifiersGenerator.generate_new_key(3));
 	}
 	
 	private void create_dummy_medics(){
+		
 		Medic a = new Medic("Alonso", "some@email.com");
 		Medic b = new Medic("Bryan", "some@email.com");
 		Medic c = new Medic("Jennifer", "some@email.com");
 		Medic d = new Medic("Fabian", "some@email.com");
 		Medic e = new Medic("Kate", "some@email.com");
 		
-		medic_tree.insert(a, key_values);
-		key_values++;
-		medic_tree.insert(b, key_values);
-		key_values++;
-		medic_tree.insert(c, key_values);
-		key_values++;
-		medic_tree.insert(d, key_values);
-		key_values++;
-		medic_tree.insert(e, key_values);
-		key_values++;
+		medic_tree.insert(a, IdentifiersGenerator.generate_new_key(3));
+		medic_tree.insert(b, IdentifiersGenerator.generate_new_key(3));
+		medic_tree.insert(c, IdentifiersGenerator.generate_new_key(3));
+		medic_tree.insert(d, IdentifiersGenerator.generate_new_key(3));
+		medic_tree.insert(e, IdentifiersGenerator.generate_new_key(3));
 	}
+	
 
 }
