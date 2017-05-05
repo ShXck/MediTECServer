@@ -93,7 +93,7 @@
 	</medication>
 	<medication id = "0024">
 		<name>Dihydergot</name>
-		<price>150000</price>
+		<price>35450</price>
 	</medication>
 	<medication id = "0025">
 		<name>Elocom</name>
@@ -106,5 +106,45 @@
 	<medication id = "0027">
 		<name>Esertia</name>
 		<price>5700</price>
+	</medication>
+	<medication id = "0028">
+		<name>Metrogel</name>
+		<price>26500</price>
+	</medication>
+	<medication id = "0028">
+		<name>Tretraciclina</name>
+		<price>47850</price>
+	</medication>
+	<medication id = "0029">
+		<name>Esteroides</name>
+		<price>57450</price>
+	</medication>
+	<medication id = "0030">
+		<name>Nexium</name>
+		<price>14500</price>
+	</medication>
+	<medication id = "0031">
+		<name>Prilosec</name>
+		<price>7500</price>
+	</medication>
+	<medication id = "0032">
+		<name>Gotas</name>
+		<price>12500</price>
+	</medication>
+	<medication id = "0033">
+		<name>Alopurinol</name>
+		<price>11200</price>
+	</medication>
+	<medication id = "0034">
+		<name>Cortisona</name>
+		<price>12500</price>
+	</medication>
+	<medication id = "0035">
+		<name>Antibioticos</name>
+		<price>9000</price>
+	</medication>
+	<medication id = "0036">
+		<name>Diureticos</name>
+		<price>13600</price>
 	</medication>
 </medicationList>

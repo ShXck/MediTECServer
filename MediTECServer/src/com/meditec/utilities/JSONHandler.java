@@ -4,6 +4,7 @@ import java.util.Calendar;
 import org.json.JSONObject;
 
 import com.meditec.medmanagement.Appointment;
+import com.meditec.medmanagement.ClinicCase;
 
 public class JSONHandler {
 	
@@ -55,21 +56,56 @@ public class JSONHandler {
 		JSONObject json_appointment = new JSONObject();
 		
 		String message = "NO HAY CITA ASIGNADA";
-		
+		//TODO: Add clinic cases when I create a xml of the existing cases.
 		if (appointment == null) {
 			json_appointment.put("code", message);
 			json_appointment.put("date",message);
 			json_appointment.put("symptoms", message);
+			json_appointment.put("medication", message);
+			json_appointment.put("tests", message);
 		}else{
 			json_appointment.put("code", appointment.number());
 			json_appointment.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
 			json_appointment.put("symptoms", appointment.symptoms());
+			json_appointment.put("medication", appointment.related_clinic_cases().root().data().get_medication_list());
+			json_appointment.put("tests", appointment.related_clinic_cases().root().data().get_tests_list());
 		}	
 		return json_appointment.toString();
+	}
+	
+	public static String get_case_name(String json){
+		JSONObject name = new JSONObject(json);
+		return name.getString("name");
 	}
 	
 	public static String get_code(String json_code){
 		JSONObject code_json = new JSONObject(json_code);
 		return code_json.getString("code");
 	}
+	
+	public static ClinicCase parse_new_clinic_case(String new_case){
+		JSONObject new_json_case = new JSONObject(new_case);
+		new_json_case.put("id", String.valueOf(IdentifiersGenerator.generate_new_key(4)));
+		ClinicCase new_case_obj = new ClinicCase(new_json_case.getString("name"), 
+				new_json_case.getString("id"), 
+				new_json_case.getString("medication"),
+				new_json_case.getString("tests"));
+		return new_case_obj;
+	}
+	
+	public static String build_json_case_details(String medication, String tests) {
+		JSONObject json_details = new JSONObject();
+		json_details.put("medication", medication);
+		json_details.put("tests", tests);
+		return json_details.toString();
+	}
+	
+	public static String parse_clinic_case(ClinicCase clinic_case){
+		JSONObject clinic_case_details = new JSONObject();
+		clinic_case_details.put("medication", clinic_case.get_medication_list());
+		clinic_case_details.put("tests", clinic_case.get_tests_list());
+		clinic_case_details.put("cost", clinic_case.price());
+		return  clinic_case_details.toString();
+	}
+	
 }

@@ -2,6 +2,7 @@ package com.meditec.clientmanagement;
 import com.meditec.medmanagement.Appointment;
 import com.meditec.medmanagement.ClinicCase;
 import com.meditec.utilities.IdentifiersGenerator;
+import com.sun.prism.paint.Paint;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class Patient implements Comparable<Patient>{
@@ -51,6 +52,12 @@ public class Patient implements Comparable<Patient>{
 
 	@Override
 	public int compareTo(Patient o) {
-		return -Integer.compare(o.code(), patient_code);
+		if (o.code() > patient_code) {
+			return 1;
+		}else if (o.code() < patient_code) {
+			return -1;
+		}else{
+			return 0;
+		}
 	}
 }

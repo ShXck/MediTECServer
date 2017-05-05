@@ -1,0 +1,62 @@
+<TestList>
+	<test id = "0001">
+		<name>Sangre</name>
+		<price>5000</price>
+	</test>
+	<test id = "0002">
+		<name>RayosX</name>
+		<price>75000</price>
+	</test>
+	<test id = "0003">
+		<name>Ultrasonido</name>
+		<price>52000</price>
+	</test>
+	<test id = "0004">
+		<name>Tomografia</name>
+		<price>86000</price>
+	</test>
+	<test id = "0005">
+		<name>Colonoscopia</name>
+		<price>34500</price>
+	</test>
+	<test id = "0006">
+		<name>Orina</name>
+		<price>2500</price>
+	</test>
+	<test id = "0007">
+		<name>Heces</name>
+		<price>2750</price>
+	</test>
+	<test id = "0008">
+		<name>Biopsia</name>
+		<price>44000</price>
+	</test>
+	<test id = "0009">
+		<name>Ginecologico</name>
+		<price>53500</price>
+	</test>
+	<test id = "0010">
+		<name>Electrocardiograma</name>
+		<price>95000</price>
+	</test>
+	<test id = "0011">
+		<name>Nebulizacion</name>
+		<price>26400</price>
+	</test>
+	<test id = "0012">
+		<name>Radiografia</name>
+		<price>37650</price>
+	</test>
+	<test id = "0013">
+		<name>Endoscopia</name>
+		<price>46500</price>
+	</test>
+	<test id = "0014">
+		<name>Oftalmologico</name>
+		<price>19500</price>
+	</test>
+	<test id = "0015">
+		<name>Ecografia</name>
+		<price>28300</price>
+	</test>
+</TestList>

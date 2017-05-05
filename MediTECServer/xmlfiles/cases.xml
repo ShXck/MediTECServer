@@ -1,0 +1,27 @@
+<CasesList>
+	<case id = "0001"> 
+		<name>Rosacea</name>
+		<medication>Metrogel,Tretraciclina</medication>
+		<tests>Biopsia</tests>
+	</case>
+	<case id = "0002"> 
+		<name>Meningitis</name>
+		<medication>Cortisona,Esteroides</medication>
+		<tests>Radiografia,Tomografia</tests>
+	</case>
+	<case id = "0003"> 
+		<name>Ulceras</name>
+		<medication>Prilosec,Nexium</medication>
+		<tests>Endoscopia</tests>
+	</case>
+	<case id = "0004"> 
+		<name>Cataratas</name>
+		<medication>Gotas</medication>
+		<tests>Oftalmologico</tests>
+	</case>
+	<case id = "0005"> 
+		<name>PiedrasRenales</name>
+		<medication>Antibioticos,Diureticos,Alopurinol</medication>			
+		<tests>Sangre,Orina,Radiografia,Tomografia,Ecografia</tests>
+	</case>
+</CasesList>

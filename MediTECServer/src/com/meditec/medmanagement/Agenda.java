@@ -2,6 +2,7 @@ package com.meditec.medmanagement;
 
 import com.meditec.datastructures.AVLTree;
 import com.meditec.datastructures.List;
+import com.meditec.utilities.IdentifiersGenerator;
 import com.meditec.utilities.XMLHandler;
 import com.sun.xml.internal.bind.v2.runtime.Name;
 
@@ -29,12 +30,12 @@ public class Agenda {
 		return this.agenda;
 	}
 	
-	public void edit_appointment(String symptoms, String medication, String tests, String clinic_cases, Appointment appointment){
-		ClinicCase new_case = new ClinicCase();
+	public void edit_appointment(String name, String symptoms, String medication, String tests, String clinic_cases, Appointment appointment){
+		ClinicCase new_case = new ClinicCase(name, String.valueOf(IdentifiersGenerator.generate_new_key(3)),medication, tests);
 		appointment.related_clinic_cases().insert(new_case.key(), new_case);
 		edit_symptoms(symptoms, appointment);
-		edit_medication(medication, appointment, new_case);
-		edit_tests(tests, appointment, new_case);
+		//edit_medication(medication, appointment, new_case);
+		//edit_tests(tests, appointment, new_case);
 		edit_cases(clinic_cases, appointment);
 	}
 	
@@ -46,7 +47,7 @@ public class Agenda {
 		}
 	}
 	
-	private void edit_medication(String medication, Appointment appointment, ClinicCase clinic_case){
+	/*private void edit_medication(String medication, Appointment appointment, ClinicCase clinic_case){
 		
 		String[] result = medication.split(",");
 		
@@ -62,10 +63,19 @@ public class Agenda {
 	
 	private void edit_tests(String tests, Appointment appointment, ClinicCase clinic_case){
 		String[] result = tests.split(",");
-	}
+		
+		for(int i = 0; i < result.length; i++){
+			try{
+				MedicTest t = XMLHandler.find_test(result[i].toLowerCase());
+				clinic_case.tests().insert(t, t.id());
+			}catch (NullPointerException e) {
+				System.out.println(result[i].toLowerCase());
+			}
+		}
+	}*/
 	
 	private void edit_cases(String cases, Appointment appointment){
-		
+		//TODO: separate cases by "," and then find 'em with XMLHandler and then add 'em to the tree of related_cases.
 	}
 	
 }

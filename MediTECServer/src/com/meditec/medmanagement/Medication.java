@@ -30,9 +30,9 @@ public class Medication implements Comparable<Medication> {
 
 	@Override
 	public int compareTo(Medication o) {
-		if (o.price > price) {
+		if (o.id() > id) {
 			return 1;
-		}else if(o.price < price){
+		}else if(o.id() < id){
 			return -1;
 		}else{
 			return 0;

@@ -1,6 +1,7 @@
 package com.meditec.resources;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -10,18 +11,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
+
+import com.meditec.datastructures.BinaryTree;
 import com.meditec.datastructures.SplayTree;
 import com.meditec.medmanagement.Medic;
+import com.meditec.medmanagement.MedicTest;
 import com.meditec.utilities.IdentifiersGenerator;
 import com.meditec.utilities.JSONHandler;
 import com.meditec.utilities.XMLHandler;
 import com.meditec.medmanagement.Appointment;
+import com.meditec.medmanagement.ClinicCase;
 import com.meditec.medmanagement.Finder;
 
 @Path("/medics")
 public class MedicResources {
 	
 	public static SplayTree<Medic> medic_tree = new SplayTree<>();
+	public static BinaryTree<ClinicCase> cases = new BinaryTree<>();
+	public static SplayTree<MedicTest> tests = new SplayTree<>();
 	
 	@POST
 	@Path("/login")
@@ -30,12 +37,14 @@ public class MedicResources {
 		
 		JSONObject medic_json = new JSONObject(json_info);
 		
-		create_dummy_medics();
+		XMLHandler.add_cases_to_tree(cases);
+		XMLHandler.add_tests_to_tree(tests);
 		
 		try{
 			Medic m = Finder.find_medic_by_name(medic_json.getString("name"));
 		}catch (NullPointerException e) {
 			Medic new_medic = new Medic(medic_json.getString("name"), medic_json.getString("email"));
+			create_dummy_medics();
 			process_medic(new_medic);
 			return Response.ok(JSONHandler.get_identifier(new_medic.code())).build();
 		}
@@ -67,15 +76,65 @@ public class MedicResources {
 	@Path("/{id}/appointments/{patient}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response edit_appointment_info(String updated_info, @PathParam("id") String id, @PathParam("patient") String patient){
+		System.out.println(updated_info);
 		Medic medic = Finder.find_medic_by_code(id);
 		Appointment appointment = medic.agenda().get_appointment_info(patient);
-		medic.agenda().edit_appointment(JSONHandler.get_updated_symptoms(updated_info), JSONHandler.get_updated_medication(updated_info), JSONHandler.get_updated_tests(updated_info), JSONHandler.get_updated_cases(updated_info), appointment);
+		medic.agenda().edit_appointment(JSONHandler.get_case_name(updated_info), JSONHandler.get_updated_symptoms(updated_info), JSONHandler.get_updated_medication(updated_info), JSONHandler.get_updated_tests(updated_info), JSONHandler.get_updated_cases(updated_info), appointment);
 		return Response.ok("Appointment edited!").build();
+	}
+	
+	@POST
+	@Path("/cases/new_case")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create_clinic_case(String case_info){
+		System.out.println(case_info);
+		ClinicCase new_case = JSONHandler.parse_new_clinic_case(case_info);
+		cases.insert(new_case.key(), new_case);
+		return Response.ok("Clinic case succesfully created").build();
+	}
+	
+	@GET
+	@Path("/cases")
+	public Response get_cases_list() {
+		return Response.ok(Finder.get_all_cases(cases).toString()).build();
+	}
+	
+	@DELETE
+	@Path("/cases/{name}")
+	public Response delete_clinic_case(@PathParam("name") String case_name) {
+		cases.remove(Finder.find_case(case_name).key());
+		return Response.ok("Case removed successfully").build();
+	}
+	
+	@GET
+	@Path("/cases/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get_case_details(@PathParam("name")String name) {
+		return Response.ok(JSONHandler.parse_clinic_case(Finder.find_case(name))).build();
+	}
+	
+	@PUT
+	@Path("/cases/{name}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response edit_case_details(String json_details, @PathParam("name") String case_name){
+		ClinicCase clinic_case = Finder.find_case(case_name);
+		JSONObject details = new JSONObject(json_details);
+		clinic_case.edit_case(details.getString("tests"), details.getString("medication"));
+		return Response.ok("Clinic Case Edited!").build();
+	}
+	
+	@GET
+	@Path("/tests")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get_all_tests(){
+		return Response.ok(Finder.get_all_tests(tests).toString()).build();
 	}
 	
 	private void process_medic(Medic medic){
 		medic_tree.insert(medic, IdentifiersGenerator.generate_new_key(3));
 	}
+	
+	
 	
 	private void create_dummy_medics(){
 		

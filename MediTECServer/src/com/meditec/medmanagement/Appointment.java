@@ -70,7 +70,6 @@ public class Appointment implements Comparable<Appointment> {
 	}
 	
 	
-
 	@Override
 	public int compareTo(Appointment o) {
 		

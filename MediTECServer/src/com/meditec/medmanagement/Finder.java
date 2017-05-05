@@ -1,14 +1,13 @@
 package com.meditec.medmanagement;
 
-import org.glassfish.jersey.jaxb.internal.XmlCollectionJaxbProvider.App;
 import org.json.JSONObject;
-
 import com.meditec.clientmanagement.Patient;
 import com.meditec.datastructures.AVLNode;
 import com.meditec.datastructures.AVLTree;
-import com.meditec.datastructures.List;
-import com.meditec.datastructures.Node;
+import com.meditec.datastructures.BinaryTree;
 import com.meditec.datastructures.SplayNode;
+import com.meditec.datastructures.SplayTree;
+import com.meditec.datastructures.TreeNode;
 import com.meditec.resources.MedicResources;
 import com.meditec.resources.PatientResources;
 
@@ -125,17 +124,120 @@ public class Finder {
 		}
 	}
 	
-	public static int find_cost(AVLTree<Medication> medication){
-		return cost(medication.root(), 0);
+	public static ClinicCase find_case(String name){
+		return find_case(name.toLowerCase(), MedicResources.cases.root()).data();
 	}
 	
-	private static int cost(AVLNode<Medication> node, int total){
-		 if (node != null){
-			cost(node.left(), total += node.data().price());
-			cost(node.right(), total += node.data().price());
-	     }
-		 System.out.println(total);
-		 return total;
+	private static TreeNode<ClinicCase> find_case(String name, TreeNode<ClinicCase> node){
+		if (node != null) {
+			if (node.data().name().toLowerCase().equals(name)) {
+				return node;
+			}else {
+				TreeNode<ClinicCase> tmp = find_case(name, node.get_left());
+				if (tmp == null) {
+					tmp = find_case(name, node.get_right());
+				}
+				return tmp;
+			}
+		}else {
+			return null;
+		}
 	}
 	
+	public static String get_medication_list(AVLTree<Medication> tree){
+		return get_medication_list(tree.root(), "");
+	}
+	
+	private static String get_medication_list(AVLNode<Medication> node, String result){
+		if (node == null) {
+			return "";
+		}
+		result += get_medication_list(node.left(), result);
+		result += get_medication_list(node.right(), result);
+		result += node.data().name() + ",";
+		return result;
+	}
+	
+	public static String get_tests_list(SplayTree<MedicTest> tree){
+		return get_tests_list(tree.root(), "");
+	}
+	
+	private static String get_tests_list(SplayNode<MedicTest> node, String result){
+		if (node == null) {
+			return "";
+		}
+		result += get_tests_list(node.left, result);
+		result += get_tests_list(node.right,result);
+		result += node.element.name() + ",";
+		return result;
+	}
+	
+	public static JSONObject get_all_cases(BinaryTree<ClinicCase> tree){
+		return get_all_cases(tree.root(), new JSONObject(), 1);
+	}
+	
+	private static JSONObject get_all_cases(TreeNode<ClinicCase> node, JSONObject json, int count){
+		if (node != null) {
+			System.out.println(node.data().name());
+			get_all_cases(node.get_left(), json , count + 1);
+			json.put(String.valueOf(count), node.data().name());
+			json.put("count", count);
+			get_all_cases(node.get_right(), json, count + 1);
+		}
+		return json;
+	}
+	
+	public static Medication find_medication(String name, AVLTree<Medication> tree){
+		return find_medication(name, tree.root()).data();
+	}
+	
+	private static AVLNode<Medication> find_medication(String name, AVLNode<Medication> node){
+		if (node != null) {
+			if (node.data().name().toLowerCase().equals(name.toLowerCase())) {
+				return node;
+			}else {
+				AVLNode<Medication> tmp = find_medication(name, node.left());
+				if (tmp == null) {
+					tmp = find_medication(name, node.right());
+				}
+				return tmp;
+			}
+		}else {
+			return null;
+		}
+	}
+	
+	public static MedicTest find_test(String name, SplayTree<MedicTest> tree){
+		return find_test(name, tree.root()).element;
+	}
+	
+	private static SplayNode<MedicTest> find_test(String name, SplayNode<MedicTest> node){
+		if (node != null) {
+			if (node.element.name().toLowerCase().equals(name.toLowerCase())) {
+				return node;
+			}else {
+				SplayNode<MedicTest> tmp = find_test(name, node.left);
+				if (tmp == null) {
+					tmp = find_test(name, node.right);
+				}
+				return tmp;
+			}
+		}else {
+			return null;
+		}
+	}
+	
+	public static JSONObject get_all_tests(SplayTree<MedicTest> tree){
+		return get_all_tests(tree.root(), new JSONObject(), 1);
+	}
+	
+	private static JSONObject get_all_tests(SplayNode<MedicTest> node, JSONObject json, int count){
+		if (node != null) {
+			get_all_tests(node.left, json , count + 1);
+			json.put(String.valueOf(count), node.element.name());
+			json.put("count", count);
+			get_all_tests(node.right, json, count + 1);
+		}
+		return json;
+	}
 }
