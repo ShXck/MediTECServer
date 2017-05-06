@@ -5,6 +5,9 @@ import org.json.JSONObject;
 
 import com.meditec.medmanagement.Appointment;
 import com.meditec.medmanagement.ClinicCase;
+import com.meditec.medmanagement.Medic;
+import com.meditec.medmanagement.MedicTest;
+import com.meditec.medmanagement.Medication;
 
 public class JSONHandler {
 	
@@ -107,5 +110,35 @@ public class JSONHandler {
 		clinic_case_details.put("cost", clinic_case.price());
 		return  clinic_case_details.toString();
 	}
+	
+	public static MedicTest build_new_test(String test){
+		JSONObject new_case = new JSONObject(test);
+		return new MedicTest(new_case.getString("name"), new_case.getString("cost"), String.valueOf(IdentifiersGenerator.generate_new_key(4)));
+	}
+	
+	public static String build_test_details(MedicTest test){
+		JSONObject json_test = new  JSONObject();
+		json_test.put("name", test.name());
+		json_test.put("cost", test.cost());
+		return json_test.toString();
+	} 
+	
+	public static String build_medication_details(Medication medication){
+		JSONObject json_test = new  JSONObject();
+		json_test.put("name", medication.name());
+		json_test.put("cost", medication.price());
+		return json_test.toString();
+	} 
+	
+	public static Medication build_new_medication(String medication){
+		JSONObject new_medication = new JSONObject(medication);
+		return new Medication(new_medication.getString("name"), new_medication.getString("cost"), String.valueOf(IdentifiersGenerator.generate_new_key(4)));
+	}
+	
+	public static JSONObject parse(String info){
+		return new JSONObject(info);
+	}
+	
+	
 	
 }

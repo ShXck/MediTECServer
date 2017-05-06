@@ -12,10 +12,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
+import com.meditec.datastructures.AVLTree;
 import com.meditec.datastructures.BinaryTree;
 import com.meditec.datastructures.SplayTree;
 import com.meditec.medmanagement.Medic;
 import com.meditec.medmanagement.MedicTest;
+import com.meditec.medmanagement.Medication;
 import com.meditec.utilities.IdentifiersGenerator;
 import com.meditec.utilities.JSONHandler;
 import com.meditec.utilities.XMLHandler;
@@ -29,6 +31,7 @@ public class MedicResources {
 	public static SplayTree<Medic> medic_tree = new SplayTree<>();
 	public static BinaryTree<ClinicCase> cases = new BinaryTree<>();
 	public static SplayTree<MedicTest> tests = new SplayTree<>();
+	public static AVLTree<Medication> medication = new AVLTree<>();
 	
 	@POST
 	@Path("/login")
@@ -37,15 +40,15 @@ public class MedicResources {
 		
 		JSONObject medic_json = new JSONObject(json_info);
 		
-		XMLHandler.add_cases_to_tree(cases);
-		XMLHandler.add_tests_to_tree(tests);
-		
 		try{
 			Medic m = Finder.find_medic_by_name(medic_json.getString("name"));
 		}catch (NullPointerException e) {
 			Medic new_medic = new Medic(medic_json.getString("name"), medic_json.getString("email"));
 			create_dummy_medics();
 			process_medic(new_medic);
+			XMLHandler.add_cases_to_tree(cases);
+			XMLHandler.add_tests_to_tree(tests);
+			XMLHandler.add_medication_to_tree(medication);
 			return Response.ok(JSONHandler.get_identifier(new_medic.code())).build();
 		}
 		
@@ -109,7 +112,7 @@ public class MedicResources {
 	@GET
 	@Path("/cases/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get_case_details(@PathParam("name")String name) {
+	public Response get_case_details(@PathParam("name") String name) {
 		return Response.ok(JSONHandler.parse_clinic_case(Finder.find_case(name))).build();
 	}
 	
@@ -129,6 +132,84 @@ public class MedicResources {
 	public Response get_all_tests(){
 		return Response.ok(Finder.get_all_tests(tests).toString()).build();
 	}
+	
+	@POST
+	@Path("/tests/new_test")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create_new_test(String new_test){
+		MedicTest medic_test = JSONHandler.build_new_test(new_test);
+		tests.insert(medic_test, medic_test.id());
+		return Response.ok("Test created succesfully").build();
+	}
+	
+	@DELETE
+	@Path("/tests/{name}")
+	public Response delete_test(@PathParam("name") String name){
+		tests.remove(Finder.find_test(name, tests).id());
+		return Response.ok("Test " + name + " eliminated succesfully").build();
+		
+	}
+	
+	@PUT
+	@Path("/tests/{name}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response edit_test(String new_info, @PathParam("name") String name){
+		MedicTest m = Finder.find_test(name, tests);
+		JSONObject json_test = JSONHandler.parse(new_info);
+		m.edit_name(json_test.getString("name"));
+		m.edit_price(json_test.getInt("cost"));
+		return Response.ok("Test updated!").build();
+	}
+	
+	@GET
+	@Path("/tests/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get_test_details(@PathParam("name") String name){
+		return Response.ok(JSONHandler.build_test_details(Finder.find_test(name, tests))).build();
+	}
+	
+	@GET
+	@Path("/medication")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get_all_medication(){
+		return Response.ok(Finder.get_all_medication(medication).toString()).build();
+	}
+	
+	@DELETE
+	@Path("/medication/{name}")
+	public Response delete_medication(@PathParam("name") String name){
+		medication.remove(Finder.find_medication(name, medication));
+		return Response.ok("Medication removed!").build();
+	}
+	
+	@PUT
+	@Path("/medication/{name}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response edit_medication(String info, @PathParam("name") String name){
+		Medication m = Finder.find_medication(name, medication);
+		JSONObject json_test = JSONHandler.parse(info);
+		m.edit_name(json_test.getString("name"));
+		m.edit_cost(json_test.getInt("cost"));
+		return Response.ok("Medication updated!").build();
+	}
+	
+	@GET
+	@Path("/medication/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get_medication_details(@PathParam("name") String name){
+		return Response.ok(JSONHandler.build_medication_details(Finder.find_medication(name, medication))).build();
+	}
+		
+	@POST
+	@Path("/medication/new_medication")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create_medication(String new_medication){
+		Medication medication = JSONHandler.build_new_medication(new_medication);
+		this.medication.insert(medication);
+		return Response.ok(medication.name() + " created!").build();		
+	}
+	
+
 	
 	private void process_medic(Medic medic){
 		medic_tree.insert(medic, IdentifiersGenerator.generate_new_key(3));

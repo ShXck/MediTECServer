@@ -240,4 +240,18 @@ public class Finder {
 		}
 		return json;
 	}
+	
+	public static JSONObject get_all_medication(AVLTree<Medication> tree){
+		return get_all_medication(tree.root(), new JSONObject(), 1);
+	}
+	
+	private static JSONObject get_all_medication(AVLNode<Medication> node, JSONObject json, int count){
+		if (node != null) {
+			get_all_medication(node.left(), json , count + 1);
+			json.put(String.valueOf(count), node.data().name());
+			get_all_medication(node.right(), json, count + 1);
+		}
+		json.put("count", MedicResources.medication.count());
+		return json;
+	}
 }

@@ -25,6 +25,14 @@ public class MedicTest implements Comparable<MedicTest>{
 	public String name(){
 		return name;
 	}
+	
+	public void edit_name(String name){
+		this.name = name;
+	}
+	
+	public void edit_price(int new_price){
+		this.cost = new_price;
+	}
 
 	@Override
 	public int compareTo(MedicTest o) {

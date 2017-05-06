@@ -27,6 +27,14 @@ public class Medication implements Comparable<Medication> {
 	public int id(){
 		return this.id;
 	}
+	
+	public void edit_name(String new_name){
+		this.name = new_name;
+	}
+	
+	public void edit_cost(int new_cost){
+		this.price = new_cost;
+	}
 
 	@Override
 	public int compareTo(Medication o) {
