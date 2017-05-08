@@ -24,7 +24,7 @@ import com.meditec.utilities.JSONHandler;
 public class PatientResources {
 	
 	public static AVLTree<Patient>  patients_tree = new AVLTree<>();
-	Mailer Mailer = new Mailer();
+	Mailer mailer = new Mailer();
 	
 	@POST
 	@Path("/login")
@@ -32,17 +32,15 @@ public class PatientResources {
 	public Response log_patient(String json_info){
 		
 		JSONObject patient_info = new JSONObject(json_info);
-		
-		Patient patient = new Patient(patient_info.getString("name"), patient_info.getString("email"));
 	
 		try{
-			Patient p = Finder.find_patient(patient.name());
+			Patient p = Finder.find_patient(patient_info.getString("name"));
 		}catch (NullPointerException e) {
+			Patient patient = new Patient(patient_info.getString("name"), patient_info.getString("email"));
 			process_client(patient);
-			return Response.ok("Welcome to MediTEC " + patient.name()).build();
+			return Response.ok("{status:blocked}").build();
 		}
-		
-		return Response.ok("Welcome Back " + patient.name()).build();
+		return Response.ok("{status:unblocked}").build();
 	}
 	
 	@POST
@@ -59,6 +57,8 @@ public class PatientResources {
 		
 		Patient patient = Finder.find_patient(appointment.getString("patient"));
 		patient.set_current_appointment(new_appointment);
+		
+		mailer.send_appointment_email(medic.email());
 		
 		return Response.ok("Your Appointment is set").build();
 	}
@@ -89,8 +89,7 @@ public class PatientResources {
 	
 	private void process_client(Patient p){
 		patients_tree.insert(p);
-		//XMLHandler.serialize_patient(p);
-		//Mailer.send_qr(p.email(), p.name());
+		mailer.send_qr(p.email(), p.name());
 	}
 }
 

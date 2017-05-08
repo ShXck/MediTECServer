@@ -1,11 +1,7 @@
 package com.meditec.medmanagement;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-
-import com.meditec.clientmanagement.Patient;
-import com.meditec.datastructures.AVLTree;
 import com.meditec.datastructures.BinaryTree;
 import com.meditec.datastructures.List;
 import com.meditec.utilities.IdentifiersGenerator;
@@ -50,6 +46,10 @@ public class Appointment implements Comparable<Appointment> {
 			result += symptoms.get(i).getData() +  ",";
 		}
 		return result;
+	}
+	
+	public String get_cases_list(){
+		return Finder.get_cases_list(related_clinic_cases);
 	}
 	
 

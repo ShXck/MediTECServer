@@ -1,39 +1,131 @@
 package com.meditec.clientmanagement;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Date;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 public class Mailer {
 	
-	private final String SENDER = "correo@correo.com";
-	private final String PASSWORD = "******";
-	
+	private final String SENDER = "some@gmail.com";
+	private final String PASSWORD = "*******";
+	private final String HOST = "smtp.gmail.com";
+	private final String PORT = "587";
+
 	public void send_qr(String receiver, String name){
 		
-		Properties properties = System.getProperties();
+		final String SUBJECT = "Desbloquea tu aplicación";
+		final String MESSAGE = "Bienvenido a MediTEC, por favor escanea el siguiente código QR para desbloquear la aplicación";
+		final String ATTACHMENT = "C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/unblocked.png";
 		
-		properties.put("mail.transport.protocol", "smtp");
-		
-		properties.setProperty("mail.smtp.host", "localhost");
+		Properties properties = new Properties();
+		properties.put("mail.smtp.port", PORT);
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.starttls.enable", "true");
 		
 		Session session = Session.getDefaultInstance(properties);
+		Message msg = new MimeMessage(session);
 		
-		try{
-			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(SENDER));
-			message.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(receiver));
-			message.setSubject("MediTEC Unblocking QR Code");
-			message.setText("Scan the code to unblock the app");
+		try {
+			msg.setFrom(new InternetAddress(SENDER));
+			InternetAddress address = new InternetAddress(receiver);
+			msg.setRecipient(Message.RecipientType.TO, address);
+			msg.setSubject(SUBJECT);
 			
-			Transport.send(message);
-		}catch (MessagingException e) {
+			MimeBodyPart msg_part = new MimeBodyPart();
+			msg_part.setText(MESSAGE);
+			
+			MimeBodyPart attachPart = new MimeBodyPart();
+			attachPart.attachFile(new File(ATTACHMENT));
+			attachPart.setHeader("Content-Type", "text/plain; charset=\"us-ascii\"; name=\"unblock.png\"");
+			
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(attachPart);
+			multipart.addBodyPart(msg_part);
+
+			msg.setContent(multipart);
+
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		try {
+			Transport transport = session.getTransport("smtp");
+			
+			transport.connect(HOST, SENDER, PASSWORD);
+			transport.sendMessage(msg, msg.getAllRecipients());
+			transport.close();
+		} catch (NoSuchProviderException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
 	
+	public void send_appointment_email(String receiver){
+		
+		final String SUBJECT = "Nueva cita";
+		final String MESSAGE = "Se ha reservado una nueva cita con usted. Para ver los detalles de la cita dirigase al apartado de agenda en su aplicacion";
+		
+		Properties properties = new Properties();
+		properties.put("mail.smtp.port", PORT);
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.starttls.enable", "true");
+		
+		Session session = Session.getDefaultInstance(properties);
+		Message msg = new MimeMessage(session);
+		
+		try {
+			msg.setFrom(new InternetAddress(SENDER));
+			InternetAddress address = new InternetAddress(receiver);
+			msg.setRecipient(Message.RecipientType.TO, address);
+			msg.setSubject(SUBJECT);
+			
+			MimeBodyPart msg_part = new MimeBodyPart();
+			msg_part.setText(MESSAGE);
+			
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(msg_part);
+
+			msg.setContent(multipart);
+
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Transport transport = session.getTransport("smtp");
+			
+			transport.connect(HOST, SENDER, PASSWORD);
+			transport.sendMessage(msg, msg.getAllRecipients());
+			transport.close();
+		} catch (NoSuchProviderException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+			
 	}
 }

@@ -1,10 +1,8 @@
 package com.meditec.medmanagement;
 
 import com.meditec.datastructures.AVLTree;
-import com.meditec.datastructures.List;
-import com.meditec.utilities.IdentifiersGenerator;
+import com.meditec.resources.MedicResources;
 import com.meditec.utilities.XMLHandler;
-import com.sun.xml.internal.bind.v2.runtime.Name;
 
 public class Agenda {
 	
@@ -30,52 +28,57 @@ public class Agenda {
 		return this.agenda;
 	}
 	
-	public void edit_appointment(String name, String symptoms, String medication, String tests, String clinic_cases, Appointment appointment){
-		ClinicCase new_case = new ClinicCase(name, String.valueOf(IdentifiersGenerator.generate_new_key(3)),medication, tests);
-		appointment.related_clinic_cases().insert(new_case.key(), new_case);
+	public void edit_appointment(String symptoms, String medication, String tests, String clinic_cases, Appointment appointment){
 		edit_symptoms(symptoms, appointment);
-		//edit_medication(medication, appointment, new_case);
-		//edit_tests(tests, appointment, new_case);
 		edit_cases(clinic_cases, appointment);
+		edit_tests(tests, appointment);	
+		edit_medication(medication, appointment);
+	}
+	
+	//TODO: EN LUGAR DE MANDARLOS EN STRING MANDARLOS POR JSON Array.
+	private void edit_medication(String medication, Appointment appointment){
+		
+		String[] result = medication.split(",");
+		
+		for(int k = 0; k < result.length; k++){
+			try{
+				Medication medication3 = Finder.find_medication(result[k].toLowerCase(), appointment.related_clinic_cases().root().data().medication());
+			}catch (NullPointerException e) {
+				appointment.related_clinic_cases().root().data().medication().insert(XMLHandler.find_medication(result[k].toLowerCase()));
+			}
+		}
 	}
 	
 	private void edit_symptoms(String symptoms, Appointment appointment){
 		String[] result = symptoms.split(",");
-		
+		appointment.symptoms_list().clear_list();
 		for(int i = 0; i < result.length; i++){
 			appointment.symptoms_list().add_last(result[i]);
 		}
 	}
 	
-	/*private void edit_medication(String medication, Appointment appointment, ClinicCase clinic_case){
+	private void edit_tests(String tests, Appointment appointment){
+		String[] result = tests.split(",");
 		
-		String[] result = medication.split(",");
-		
-		for(int i = 0; i < result.length; i++){
+		for(int j = 0; j < result.length; j++){
 			try{
-				Medication m = XMLHandler.find_medication(result[i].toLowerCase());
-				clinic_case.medication().insert(m);
-			}catch (NullPointerException npe) {
-				System.out.println(result[i].toLowerCase());
+				MedicTest medic_test_to_find = Finder.find_test(result[j], appointment.related_clinic_cases().root().data().tests());
+			}catch (NullPointerException e) {
+				MedicTest medic_test = XMLHandler.find_test(result[j].toLowerCase());
+				appointment.related_clinic_cases().root().data().tests().insert(medic_test, medic_test.id());
 			}
 		}
 	}
 	
-	private void edit_tests(String tests, Appointment appointment, ClinicCase clinic_case){
-		String[] result = tests.split(",");
+	private void edit_cases(String cases, Appointment appointment){
+		String[] result = cases.split(",");
 		
 		for(int i = 0; i < result.length; i++){
-			try{
-				MedicTest t = XMLHandler.find_test(result[i].toLowerCase());
-				clinic_case.tests().insert(t, t.id());
-			}catch (NullPointerException e) {
-				System.out.println(result[i].toLowerCase());
-			}
+			System.out.println(result[i]);
+			ClinicCase clinicCase = Finder.find_case(result[i], MedicResources.cases);
+			appointment.related_clinic_cases().insert(clinicCase.key(), clinicCase);
 		}
-	}*/
-	
-	private void edit_cases(String cases, Appointment appointment){
-		//TODO: separate cases by "," and then find 'em with XMLHandler and then add 'em to the tree of related_cases.
+
 	}
 	
 }

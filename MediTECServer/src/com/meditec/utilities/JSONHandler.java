@@ -23,35 +23,7 @@ public class JSONHandler {
 		appointment_json.put("day", appointment.calendar().get(Calendar.DAY_OF_MONTH));
 		appointment_json.put("month", appointment.calendar().get(Calendar.MONTH));
 		appointment_json.put("year", appointment.calendar().get(Calendar.YEAR));
-		return appointment_json.toString();    //TODO: Agregar al json informacion como los sintomas y demas, usando un algoritmo de nevgacion en el arbol para recoger todos los sintomas registrados.
-	}
-	
-	public static String get_updated_symptoms(String json_updated_appointment){
-		
-		JSONObject json_appointment = new JSONObject(json_updated_appointment);
-		
-		return json_appointment.getString("symptoms");
-	}
-	
-	public static String get_updated_medication(String json_updated_appointment){
-		
-		JSONObject json_appointment = new JSONObject(json_updated_appointment);
-		
-		return json_appointment.getString("medication");
-	}
-	
-	public static String get_updated_tests(String json_updated_appointment){
-		
-		JSONObject json_appointment = new JSONObject(json_updated_appointment);
-		
-		return json_appointment.getString("tests");
-	}
-	
-	public static String get_updated_cases(String json_updated_appointment){
-		
-		JSONObject json_appointment = new JSONObject(json_updated_appointment);
-		
-		return json_appointment.getString("clinic_cases");
+		return appointment_json.toString();    //TODO: Agregar al json informacion como los sintomas registrados en la deteccion por voz y demas, usando un algoritmo de nevgacion en el arbol para recoger todos los sintomas registrados.
 	}
 	
 	public static String get_appointment_overview(Appointment appointment){
@@ -59,26 +31,23 @@ public class JSONHandler {
 		JSONObject json_appointment = new JSONObject();
 		
 		String message = "NO HAY CITA ASIGNADA";
-		//TODO: Add clinic cases when I create a xml of the existing cases.
+		
 		if (appointment == null) {
 			json_appointment.put("code", message);
 			json_appointment.put("date",message);
 			json_appointment.put("symptoms", message);
 			json_appointment.put("medication", message);
 			json_appointment.put("tests", message);
+			json_appointment.put("cases", message);
 		}else{
 			json_appointment.put("code", appointment.number());
 			json_appointment.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
 			json_appointment.put("symptoms", appointment.symptoms());
 			json_appointment.put("medication", appointment.related_clinic_cases().root().data().get_medication_list());
 			json_appointment.put("tests", appointment.related_clinic_cases().root().data().get_tests_list());
+			json_appointment.put("cases", appointment.get_cases_list());
 		}	
 		return json_appointment.toString();
-	}
-	
-	public static String get_case_name(String json){
-		JSONObject name = new JSONObject(json);
-		return name.getString("name");
 	}
 	
 	public static String get_code(String json_code){

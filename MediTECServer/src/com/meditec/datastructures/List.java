@@ -70,14 +70,7 @@ public class List<T> {
      * Limpia la lista.
      */
     public void clear_list(){
-
-        Node current = this.head;
-
-        while (current.getNext() != null){
-            current.setData(null);
-            current = current.getNext();
-        }
-
+       this.head = null;
     }
 
     /**

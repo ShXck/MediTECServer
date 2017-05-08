@@ -82,7 +82,8 @@ public class MedicResources {
 		System.out.println(updated_info);
 		Medic medic = Finder.find_medic_by_code(id);
 		Appointment appointment = medic.agenda().get_appointment_info(patient);
-		medic.agenda().edit_appointment(JSONHandler.get_case_name(updated_info), JSONHandler.get_updated_symptoms(updated_info), JSONHandler.get_updated_medication(updated_info), JSONHandler.get_updated_tests(updated_info), JSONHandler.get_updated_cases(updated_info), appointment);
+		JSONObject info = new JSONObject(updated_info);
+		medic.agenda().edit_appointment(info.getString("symptoms"), info.getString("medication"), info.getString("tests"), info.getString("cases"), appointment);
 		return Response.ok("Appointment edited!").build();
 	}
 	
@@ -105,7 +106,7 @@ public class MedicResources {
 	@DELETE
 	@Path("/cases/{name}")
 	public Response delete_clinic_case(@PathParam("name") String case_name) {
-		cases.remove(Finder.find_case(case_name).key());
+		cases.remove(Finder.find_case(case_name,cases).key());
 		return Response.ok("Case removed successfully").build();
 	}
 	
@@ -113,14 +114,14 @@ public class MedicResources {
 	@Path("/cases/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get_case_details(@PathParam("name") String name) {
-		return Response.ok(JSONHandler.parse_clinic_case(Finder.find_case(name))).build();
+		return Response.ok(JSONHandler.parse_clinic_case(Finder.find_case(name,cases))).build();
 	}
 	
 	@PUT
 	@Path("/cases/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response edit_case_details(String json_details, @PathParam("name") String case_name){
-		ClinicCase clinic_case = Finder.find_case(case_name);
+		ClinicCase clinic_case = Finder.find_case(case_name, cases);
 		JSONObject details = new JSONObject(json_details);
 		clinic_case.edit_case(details.getString("tests"), details.getString("medication"));
 		return Response.ok("Clinic Case Edited!").build();
@@ -214,8 +215,6 @@ public class MedicResources {
 	private void process_medic(Medic medic){
 		medic_tree.insert(medic, IdentifiersGenerator.generate_new_key(3));
 	}
-	
-	
 	
 	private void create_dummy_medics(){
 		

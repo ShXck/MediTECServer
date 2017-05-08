@@ -49,7 +49,7 @@ public class Patient implements Comparable<Patient>{
 	public void set_current_appointment(Appointment appointment) {
 		this.current_appointment = appointment;
 	}
-
+	
 	@Override
 	public int compareTo(Patient o) {
 		if (o.code() > patient_code) {

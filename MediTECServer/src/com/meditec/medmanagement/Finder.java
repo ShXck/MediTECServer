@@ -124,13 +124,13 @@ public class Finder {
 		}
 	}
 	
-	public static ClinicCase find_case(String name){
-		return find_case(name.toLowerCase(), MedicResources.cases.root()).data();
+	public static ClinicCase find_case(String name, BinaryTree<ClinicCase> tree){
+		return find_case(name.toLowerCase(), tree.root()).data();
 	}
 	
 	private static TreeNode<ClinicCase> find_case(String name, TreeNode<ClinicCase> node){
 		if (node != null) {
-			if (node.data().name().toLowerCase().equals(name)) {
+			if (node.data().name().toLowerCase().equals(name.toLowerCase())) {
 				return node;
 			}else {
 				TreeNode<ClinicCase> tmp = find_case(name, node.get_left());
@@ -253,5 +253,19 @@ public class Finder {
 		}
 		json.put("count", MedicResources.medication.count());
 		return json;
+	}
+
+	public static String get_cases_list(BinaryTree<ClinicCase> tree){
+		return get_cases_list(tree.root(), "");
+	}
+	
+	private static String get_cases_list(TreeNode<ClinicCase> node, String result){
+		if (node == null) {
+			return "";
+		}
+		result += get_cases_list(node.get_left(), result);
+		result += get_cases_list(node.get_right(),result);
+		result += node.data().name() + ",";
+		return result;
 	}
 }
