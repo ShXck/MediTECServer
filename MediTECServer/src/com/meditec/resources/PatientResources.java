@@ -24,7 +24,6 @@ import com.meditec.utilities.JSONHandler;
 public class PatientResources {
 	
 	public static AVLTree<Patient>  patients_tree = new AVLTree<>();
-	Mailer mailer = new Mailer();
 	
 	@POST
 	@Path("/login")
@@ -44,8 +43,8 @@ public class PatientResources {
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/book")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response book_appointment(String json_appointment){
 	
 		JSONObject appointment = new JSONObject(json_appointment);
@@ -57,8 +56,9 @@ public class PatientResources {
 		
 		Patient patient = Finder.find_patient(appointment.getString("patient"));
 		patient.set_current_appointment(new_appointment);
+		patient.set_last_appointment(new_appointment);
 		
-		mailer.send_appointment_email(medic.email());
+		Mailer.send_appointment_email(medic.email());
 		
 		return Response.ok("Your Appointment is set").build();
 	}
@@ -79,17 +79,47 @@ public class PatientResources {
 	
 	@DELETE
 	@Path("/{patient}/appointments")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response delete_appointment(String med_code, @PathParam("patient") String patient_name){
 		Patient patient = Finder.find_patient(patient_name);
 		patient.set_current_appointment(null);
+		patient.set_last_appointment(null);
 		Medic medic = Finder.find_medic_by_code(JSONHandler.get_code(med_code));
 		medic.agenda().remove_appointment(patient_name);
 		return Response.ok("Your appointment has been cancelled").build();
 	}
 	
+	@DELETE
+	@Path("/{patient}/pay")
+	public Response pay_appointment(@PathParam("patient") String patient_name){
+		Patient patient = Finder.find_patient(patient_name);
+		patient.set_current_appointment(null);
+		return Response.ok("Appointmetn paid!").build();
+	}
+	
+	@POST
+	@Path("{id}/rate")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response get_feedback(String feedback, @PathParam("id") String name){
+		System.out.println("hola");
+		JSONObject json_info = new JSONObject(feedback);
+		Medic medic = Finder.find_medic_by_code(json_info.getString("code"));
+		medic.add_comments(json_info.getString("comments"));
+		Patient patient = Finder.find_patient(name);
+		patient.set_last_appointment(null);
+		return Response.ok("Your comments were added succesfully!").build();
+	}
+	
+	@GET
+	@Path("/{id}/appointments/last")
+	public Response get_last_appointment_info(@PathParam("id") String patient_name){
+		Patient patient = Finder.find_patient(patient_name);
+		return Response.ok(JSONHandler.get_appointment_overview(patient.last_appointment())).build();
+	}
+	
 	private void process_client(Patient p){
 		patients_tree.insert(p);
-		mailer.send_qr(p.email(), p.name());
+		Mailer.send_qr(p.email(), p.name());
 	}
 }
 

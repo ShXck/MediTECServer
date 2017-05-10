@@ -57,7 +57,11 @@ public class Appointment implements Comparable<Appointment> {
 		return related_clinic_cases;
 	}
 
-	public boolean is_finished() {
+	public void end(){
+		is_finished = true;
+	}
+	
+	public boolean is_finished(){
 		return is_finished;
 	}
 	
@@ -69,6 +73,14 @@ public class Appointment implements Comparable<Appointment> {
 		return this.calendar;
 	}
 	
+	public int total_cost(){
+		return Finder.find_appointment_cost(related_clinic_cases);
+	}
+	
+	public String medic() {
+		return this.medic;
+	}
+
 	
 	@Override
 	public int compareTo(Appointment o) {

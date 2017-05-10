@@ -23,12 +23,12 @@ import javax.mail.internet.MimeMultipart;
 
 public class Mailer {
 	
-	private final String SENDER = "some@gmail.com";
-	private final String PASSWORD = "*******";
-	private final String HOST = "smtp.gmail.com";
-	private final String PORT = "587";
+	private static final String SENDER = "your@email.com";
+	private static final String PASSWORD = "*******";
+	private static final String HOST = "smtp.gmail.com";
+	private static final String PORT = "587";
 
-	public void send_qr(String receiver, String name){
+	public static void send_qr(String receiver, String name){
 		
 		final String SUBJECT = "Desbloquea tu aplicación";
 		final String MESSAGE = "Bienvenido a MediTEC, por favor escanea el siguiente código QR para desbloquear la aplicación";
@@ -82,7 +82,7 @@ public class Mailer {
 		}
 	}
 	
-	public void send_appointment_email(String receiver){
+	public static void send_appointment_email(String receiver){
 		
 		final String SUBJECT = "Nueva cita";
 		final String MESSAGE = "Se ha reservado una nueva cita con usted. Para ver los detalles de la cita dirigase al apartado de agenda en su aplicacion";
@@ -125,7 +125,53 @@ public class Mailer {
 			e.printStackTrace();
 		} catch (MessagingException e) {
 			e.printStackTrace();
-		}
+		}			
+	}
+	
+	public static void send_appointment_info(String receiver,String symptoms, String treatment, String tests, String cases , int cost){
+		
+		final String SUBJECT = "Informacion de la cita";
+		final String MESSAGE = "A continuacion se le provee de los detalles de la cita:" + "\n Sintomas: " + symptoms + "\n Medicacion necesaria: " + treatment + "\n Examenes medicos requeridos: " + tests + "\n Casos clinicos relacionados: " + cases + "\n Costo total: " + cost + "\n Esperamos que nuestro servicio haya sido satifactorio.";
+		
+		
+		Properties properties = new Properties();
+		properties.put("mail.smtp.port", PORT);
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.starttls.enable", "true");
+		
+		Session session = Session.getDefaultInstance(properties);
+		Message msg = new MimeMessage(session);
+		
+		try {
+			msg.setFrom(new InternetAddress(SENDER));
+			InternetAddress address = new InternetAddress(receiver);
+			msg.setRecipient(Message.RecipientType.TO, address);
+			msg.setSubject(SUBJECT);
 			
+			MimeBodyPart msg_part = new MimeBodyPart();
+			msg_part.setText(MESSAGE);
+			
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(msg_part);
+
+			msg.setContent(multipart);
+
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Transport transport = session.getTransport("smtp");
+			
+			transport.connect(HOST, SENDER, PASSWORD);
+			transport.sendMessage(msg, msg.getAllRecipients());
+			transport.close();
+		} catch (NoSuchProviderException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}			
 	}
 }

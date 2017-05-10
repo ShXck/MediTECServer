@@ -3,6 +3,9 @@ package com.meditec.utilities;
 import java.util.Calendar;
 import org.json.JSONObject;
 
+import com.ibm.json.java.JSONArray;
+import com.meditec.datastructures.List;
+import com.meditec.datastructures.Node;
 import com.meditec.medmanagement.Appointment;
 import com.meditec.medmanagement.ClinicCase;
 import com.meditec.medmanagement.Medic;
@@ -39,13 +42,20 @@ public class JSONHandler {
 			json_appointment.put("medication", message);
 			json_appointment.put("tests", message);
 			json_appointment.put("cases", message);
+			json_appointment.put("price", message);
+			json_appointment.put("medic", message);
+			json_appointment.put("finished", false);
 		}else{
 			json_appointment.put("code", appointment.number());
 			json_appointment.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
 			json_appointment.put("symptoms", appointment.symptoms());
+			//TODO: modificar solo se estan mandando los medicamentos y examenes de un solo caso.
 			json_appointment.put("medication", appointment.related_clinic_cases().root().data().get_medication_list());
 			json_appointment.put("tests", appointment.related_clinic_cases().root().data().get_tests_list());
 			json_appointment.put("cases", appointment.get_cases_list());
+			json_appointment.put("price", appointment.total_cost());
+			json_appointment.put("medic", appointment.medic());
+			json_appointment.put("finished", appointment.is_finished());
 		}	
 		return json_appointment.toString();
 	}
@@ -108,6 +118,40 @@ public class JSONHandler {
 		return new JSONObject(info);
 	}
 	
+	public static JSONObject appointment_to_json(Appointment appointment){
+		
+		JSONObject details = new JSONObject();
+		
+		details.put("code", appointment.number());
+		details.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
+		details.put("symptoms", appointment.symptoms());
+		details.put("medication", appointment.related_clinic_cases().root().data().get_medication_list());
+		details.put("tests", appointment.related_clinic_cases().root().data().get_tests_list());
+		details.put("cases", appointment.get_cases_list());
+		details.put("price", appointment.total_cost());
+		
+		return details;
+	}
 	
-	
+	public static String get_json_comments(List<String> comments){
+		
+		JSONObject json_comments = new JSONObject();
+		
+		if (!comments.is_empty()) {
+			
+			Node<String> current = comments.peek();
+			int count = 1;
+			
+			while(current.getNext() != null){
+				json_comments.put(String.valueOf(count), current.getData());
+				count++;
+				current = current.getNext();
+			}
+			json_comments.put(String.valueOf(count), current.getData());
+			json_comments.put("count", count);
+			return json_comments.toString();
+		}else {
+			return json_comments.toString();
+		}
+	}
 }

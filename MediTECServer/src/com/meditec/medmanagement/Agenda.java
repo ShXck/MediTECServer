@@ -28,6 +28,7 @@ public class Agenda {
 		return this.agenda;
 	}
 	
+	//TODO: fix the duplicate problem.
 	public void edit_appointment(String symptoms, String medication, String tests, String clinic_cases, Appointment appointment){
 		edit_symptoms(symptoms, appointment);
 		edit_cases(clinic_cases, appointment);
@@ -35,16 +36,13 @@ public class Agenda {
 		edit_medication(medication, appointment);
 	}
 	
-	//TODO: EN LUGAR DE MANDARLOS EN STRING MANDARLOS POR JSON Array.
 	private void edit_medication(String medication, Appointment appointment){
-		
+
 		String[] result = medication.split(",");
 		
 		for(int k = 0; k < result.length; k++){
-			try{
-				Medication medication3 = Finder.find_medication(result[k].toLowerCase(), appointment.related_clinic_cases().root().data().medication());
-			}catch (NullPointerException e) {
-				appointment.related_clinic_cases().root().data().medication().insert(XMLHandler.find_medication(result[k].toLowerCase()));
+			if (!Finder.contains_medication(result[k].toLowerCase(), appointment.related_clinic_cases())) {
+				appointment.related_clinic_cases().root().data().medication().insert(XMLHandler.find_medication(result[k]));
 			}
 		}
 	}
@@ -57,7 +55,9 @@ public class Agenda {
 		}
 	}
 	
+	
 	private void edit_tests(String tests, Appointment appointment){
+	
 		String[] result = tests.split(",");
 		
 		for(int j = 0; j < result.length; j++){

@@ -268,4 +268,41 @@ public class Finder {
 		result += node.data().name() + ",";
 		return result;
 	}
+	
+	public static int find_appointment_cost(BinaryTree<ClinicCase> cases_tree){
+		return find_appointment_cost(cases_tree.root(),0);
+	}
+	
+	private static int find_appointment_cost(TreeNode<ClinicCase> node, int total){
+		if (node == null) {
+			return 0;
+		}
+		total += find_appointment_cost(node.get_left(), total);
+		total += find_appointment_cost(node.get_right(),total);
+		total += node.data().price();
+		return total;
+	}
+	
+	public static boolean contains_medication(String name, BinaryTree<ClinicCase> tree){
+		return contains_medication(name, tree.root());
+	}
+	
+	private static boolean contains_medication(String name, TreeNode<ClinicCase> node){
+		if (node == null) {
+			return false;
+		}else {
+			try{
+				Medication m = find_medication(name, node.data().medication());
+				return true;
+			}catch (NullPointerException e) {
+				if (node.get_left() != null) {
+					return contains_medication(name, node.get_left());
+				}
+				if (node.get_right() != null) {
+					return contains_medication(name, node.get_right());
+				}
+			}
+		}
+		return false;
+	}
 }

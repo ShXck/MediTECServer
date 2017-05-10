@@ -12,6 +12,7 @@ public class Patient implements Comparable<Patient>{
 	private int patient_code;
 	private ClinicCase clinic_case;
 	private Appointment current_appointment;
+	private Appointment last_appointment;
 	
 	public Patient(String name, String email){
 		this.name = name;
@@ -19,6 +20,7 @@ public class Patient implements Comparable<Patient>{
 		this.clinic_case = null;
 		this.patient_code = IdentifiersGenerator.generate_new_key(4);
 		this.current_appointment = null;
+		this.last_appointment = null;
 	}
 	
 	public String name(){
@@ -48,6 +50,14 @@ public class Patient implements Comparable<Patient>{
 	
 	public void set_current_appointment(Appointment appointment) {
 		this.current_appointment = appointment;
+	}
+	
+	public Appointment last_appointment(){
+		return last_appointment;
+	}
+	
+	public void set_last_appointment(Appointment appointment) {
+		this.last_appointment = appointment;
 	}
 	
 	@Override

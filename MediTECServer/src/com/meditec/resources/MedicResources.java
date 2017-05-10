@@ -12,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
+import com.meditec.clientmanagement.Mailer;
+import com.meditec.clientmanagement.Patient;
 import com.meditec.datastructures.AVLTree;
 import com.meditec.datastructures.BinaryTree;
 import com.meditec.datastructures.SplayTree;
@@ -55,7 +57,6 @@ public class MedicResources {
 		Medic medic = Finder.find_medic_by_name(medic_json.getString("name"));
 		
 		return Response.ok(JSONHandler.get_identifier(medic.code())).build();
-		
 	}
 	
 	@GET
@@ -79,12 +80,24 @@ public class MedicResources {
 	@Path("/{id}/appointments/{patient}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response edit_appointment_info(String updated_info, @PathParam("id") String id, @PathParam("patient") String patient){
-		System.out.println(updated_info);
 		Medic medic = Finder.find_medic_by_code(id);
 		Appointment appointment = medic.agenda().get_appointment_info(patient);
 		JSONObject info = new JSONObject(updated_info);
 		medic.agenda().edit_appointment(info.getString("symptoms"), info.getString("medication"), info.getString("tests"), info.getString("cases"), appointment);
 		return Response.ok("Appointment edited!").build();
+	}
+	
+	@DELETE
+	@Path("/{id}/appointments/{patient}")
+	public Response end_appointment(@PathParam("id") String code, @PathParam("patient") String patient_name){
+		Medic medic = Finder.find_medic_by_code(code);
+		Appointment appointment = medic.agenda().get_appointment_info(patient_name);
+		Patient patient = Finder.find_patient(patient_name);
+		appointment.end();
+		JSONObject details = JSONHandler.appointment_to_json(appointment);
+		Mailer.send_appointment_info(patient.email(),details.getString("symptoms"), details.getString("medication"), details.getString("tests"), details.getString("cases"), details.getInt("price"));
+		medic.agenda().remove_appointment(patient_name);
+		return Response.ok("appointment finished succesfully").build();
 	}
 	
 	@POST
@@ -210,7 +223,12 @@ public class MedicResources {
 		return Response.ok(medication.name() + " created!").build();		
 	}
 	
-
+	@GET
+	@Path("/{id}/feedback")
+	public Response get_feedback(@PathParam("id") String medic_code){
+		Medic medic = Finder.find_medic_by_code(medic_code);
+		return Response.ok(medic.get_comments()).build();
+	}
 	
 	private void process_medic(Medic medic){
 		medic_tree.insert(medic, IdentifiersGenerator.generate_new_key(3));
