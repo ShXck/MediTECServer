@@ -2,9 +2,13 @@ package com.meditec.medmanagement;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import org.json.JSONObject;
+
 import com.meditec.datastructures.BinaryTree;
 import com.meditec.datastructures.List;
 import com.meditec.utilities.IdentifiersGenerator;
+import com.meditec.utilities.JSONHandler;
 
 public class Appointment implements Comparable<Appointment> {
 	
@@ -46,6 +50,10 @@ public class Appointment implements Comparable<Appointment> {
 			result += symptoms.get(i).getData() +  ",";
 		}
 		return result;
+	}
+	
+	public void save_recorded_symptoms(String symptoms){
+		JSONHandler.process_recorded_symptoms(symptoms, symptoms_list());
 	}
 	
 	public String get_cases_list(){

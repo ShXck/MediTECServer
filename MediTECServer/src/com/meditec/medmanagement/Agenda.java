@@ -28,7 +28,6 @@ public class Agenda {
 		return this.agenda;
 	}
 	
-	//TODO: fix the duplicate problem.
 	public void edit_appointment(String symptoms, String medication, String tests, String clinic_cases, Appointment appointment){
 		edit_symptoms(symptoms, appointment);
 		edit_cases(clinic_cases, appointment);
@@ -49,7 +48,6 @@ public class Agenda {
 	
 	private void edit_symptoms(String symptoms, Appointment appointment){
 		String[] result = symptoms.split(",");
-		appointment.symptoms_list().clear_list();
 		for(int i = 0; i < result.length; i++){
 			appointment.symptoms_list().add_last(result[i]);
 		}
@@ -74,7 +72,6 @@ public class Agenda {
 		String[] result = cases.split(",");
 		
 		for(int i = 0; i < result.length; i++){
-			System.out.println(result[i]);
 			ClinicCase clinicCase = Finder.find_case(result[i], MedicResources.cases);
 			appointment.related_clinic_cases().insert(clinicCase.key(), clinicCase);
 		}

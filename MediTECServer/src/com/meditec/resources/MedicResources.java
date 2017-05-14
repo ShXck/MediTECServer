@@ -34,6 +34,7 @@ public class MedicResources {
 	public static BinaryTree<ClinicCase> cases = new BinaryTree<>();
 	public static SplayTree<MedicTest> tests = new SplayTree<>();
 	public static AVLTree<Medication> medication = new AVLTree<>();
+	private static boolean flag = false;
 	
 	@POST
 	@Path("/login")
@@ -46,11 +47,14 @@ public class MedicResources {
 			Medic m = Finder.find_medic_by_name(medic_json.getString("name"));
 		}catch (NullPointerException e) {
 			Medic new_medic = new Medic(medic_json.getString("name"), medic_json.getString("email"));
-			create_dummy_medics();
 			process_medic(new_medic);
-			XMLHandler.add_cases_to_tree(cases);
-			XMLHandler.add_tests_to_tree(tests);
-			XMLHandler.add_medication_to_tree(medication);
+			if (!flag) {
+				XMLHandler.add_cases_to_tree(cases);
+				XMLHandler.add_tests_to_tree(tests);
+				XMLHandler.add_medication_to_tree(medication);
+				create_dummy_medics();
+				flag = true;
+			}
 			return Response.ok(JSONHandler.get_identifier(new_medic.code())).build();
 		}
 		
@@ -94,8 +98,8 @@ public class MedicResources {
 		Appointment appointment = medic.agenda().get_appointment_info(patient_name);
 		Patient patient = Finder.find_patient(patient_name);
 		appointment.end();
-		JSONObject details = JSONHandler.appointment_to_json(appointment);
-		Mailer.send_appointment_info(patient.email(),details.getString("symptoms"), details.getString("medication"), details.getString("tests"), details.getString("cases"), details.getInt("price"));
+		JSONObject details = JSONHandler.get_appointment_email_details(appointment);
+		Mailer.send_appointment_info(patient.email(), details.getString("symptoms"), details.getString("medication"), details.getString("tests"), details.getString("cases"), details.getInt("price"));
 		medic.agenda().remove_appointment(patient_name);
 		return Response.ok("appointment finished succesfully").build();
 	}
@@ -107,6 +111,7 @@ public class MedicResources {
 		System.out.println(case_info);
 		ClinicCase new_case = JSONHandler.parse_new_clinic_case(case_info);
 		cases.insert(new_case.key(), new_case);
+		XMLHandler.write_case(new_case.name(), new_case.get_medication_list(), new_case.get_tests_list(), String.valueOf(new_case.key()));
 		return Response.ok("Clinic case succesfully created").build();
 	}
 	
@@ -127,7 +132,7 @@ public class MedicResources {
 	@Path("/cases/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get_case_details(@PathParam("name") String name) {
-		return Response.ok(JSONHandler.parse_clinic_case(Finder.find_case(name,cases))).build();
+		return Response.ok(JSONHandler.build_json_clinic_case(Finder.find_case(name,cases))).build();
 	}
 	
 	@PUT
@@ -151,8 +156,9 @@ public class MedicResources {
 	@Path("/tests/new_test")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create_new_test(String new_test){
-		MedicTest medic_test = JSONHandler.build_new_test(new_test);
+		MedicTest medic_test = JSONHandler.parse_new_test(new_test);
 		tests.insert(medic_test, medic_test.id());
+		XMLHandler.write_test(medic_test.name(), String.valueOf(medic_test.cost()), String.valueOf(medic_test.id()));
 		return Response.ok("Test created succesfully").build();
 	}
 	
@@ -218,7 +224,8 @@ public class MedicResources {
 	@Path("/medication/new_medication")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create_medication(String new_medication){
-		Medication medication = JSONHandler.build_new_medication(new_medication);
+		Medication medication = JSONHandler.parse_new_medication(new_medication);
+		XMLHandler.write_medication(medication.name(), String.valueOf(medication.price()), String.valueOf(medication.id()));
 		this.medication.insert(medication);
 		return Response.ok(medication.name() + " created!").build();		
 	}

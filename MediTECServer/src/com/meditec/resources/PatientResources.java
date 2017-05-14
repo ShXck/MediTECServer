@@ -46,6 +46,8 @@ public class PatientResources {
 	@Path("/book")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response book_appointment(String json_appointment){
+		
+		System.out.println(json_appointment);
 	
 		JSONObject appointment = new JSONObject(json_appointment);
 		
@@ -57,6 +59,7 @@ public class PatientResources {
 		Patient patient = Finder.find_patient(appointment.getString("patient"));
 		patient.set_current_appointment(new_appointment);
 		patient.set_last_appointment(new_appointment);
+		patient.current_appointment().save_recorded_symptoms(appointment.getJSONArray("recorded").toString());
 		
 		Mailer.send_appointment_email(medic.email());
 		
@@ -101,7 +104,6 @@ public class PatientResources {
 	@Path("{id}/rate")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response get_feedback(String feedback, @PathParam("id") String name){
-		System.out.println("hola");
 		JSONObject json_info = new JSONObject(feedback);
 		Medic medic = Finder.find_medic_by_code(json_info.getString("code"));
 		medic.add_comments(json_info.getString("comments"));
@@ -116,6 +118,7 @@ public class PatientResources {
 		Patient patient = Finder.find_patient(patient_name);
 		return Response.ok(JSONHandler.get_appointment_overview(patient.last_appointment())).build();
 	}
+	
 	
 	private void process_client(Patient p){
 		patients_tree.insert(p);

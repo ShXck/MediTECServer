@@ -1,13 +1,23 @@
 package com.meditec.utilities;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.meditec.datastructures.AVLTree;
 import com.meditec.datastructures.BinaryTree;
@@ -143,6 +153,137 @@ public class XMLHandler {
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void write_medication(String name, String cost, String id){
+		try {
+			
+			String path = "C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/medication.xml";
+			
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(path);
+			
+			Node root = doc.getFirstChild();
+			
+			Element new_medication = doc.createElement("medication");
+			root.appendChild(new_medication);
+
+			new_medication.setAttribute("id", id);
+			
+			Element new_name = doc.createElement("name");
+			new_name.appendChild(doc.createTextNode(name));
+			new_medication.appendChild(new_name);
+			
+			
+			Element new_cost = doc.createElement("price");
+			new_cost.appendChild(doc.createTextNode(cost));
+			new_medication.appendChild(new_cost);
+			
+			DOMSource source = new DOMSource(doc);
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			StreamResult result = new StreamResult(path);
+			transformer.transform(source, result);
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException x) {
+			x.printStackTrace();
+		} catch (TransformerException t) {
+			t.printStackTrace();
+		} catch (SAXException s) {
+			s.printStackTrace();
+		}
+	}
+	
+	public static void write_test(String name, String cost, String id){
+		try {
+			
+			String path = "C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/tests.xml";
+			
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(path);
+			
+			Node root = doc.getFirstChild();
+			
+			Element new_test = doc.createElement("test");
+			root.appendChild(new_test);
+
+			new_test.setAttribute("id", id);
+			
+			Element new_name = doc.createElement("name");
+			new_name.appendChild(doc.createTextNode(name));
+			new_test.appendChild(new_name);
+			
+			
+			Element new_cost = doc.createElement("price");
+			new_cost.appendChild(doc.createTextNode(cost));
+			new_test.appendChild(new_cost);
+			
+			DOMSource source = new DOMSource(doc);
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			StreamResult result = new StreamResult(path);
+			transformer.transform(source, result);
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException x) {
+			x.printStackTrace();
+		} catch (TransformerException t) {
+			t.printStackTrace();
+		} catch (SAXException s) {
+			s.printStackTrace();
+		}
+	}
+	
+	public static void write_case(String name, String treatment, String tests, String id){
+		try {
+			
+			String path = "C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/cases.xml";
+			
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(path);
+			
+			Node root = doc.getFirstChild();
+			
+			Element new_case = doc.createElement("case");
+			root.appendChild(new_case);
+
+			new_case.setAttribute("id", id);
+			
+			Element new_name = doc.createElement("name");
+			new_name.appendChild(doc.createTextNode(name));
+			new_case.appendChild(new_name);
+			
+			
+			Element medication = doc.createElement("medication");
+			medication.appendChild(doc.createTextNode(treatment));
+			new_case.appendChild(medication);
+			
+			Element new_tests = doc.createElement("tests");
+			new_tests.appendChild(doc.createTextNode(tests));
+			new_case.appendChild(new_tests);
+			
+			
+			DOMSource source = new DOMSource(doc);
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			StreamResult result = new StreamResult(path);
+			transformer.transform(source, result);
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException x) {
+			x.printStackTrace();
+		} catch (TransformerException t) {
+			t.printStackTrace();
+		} catch (SAXException s) {
+			s.printStackTrace();
 		}
 	}
 }

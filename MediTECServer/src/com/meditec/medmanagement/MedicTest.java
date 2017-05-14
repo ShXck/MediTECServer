@@ -1,7 +1,5 @@
 package com.meditec.medmanagement;
 
-import com.meditec.utilities.IdentifiersGenerator;
-
 public class MedicTest implements Comparable<MedicTest>{
 	
 	int id;

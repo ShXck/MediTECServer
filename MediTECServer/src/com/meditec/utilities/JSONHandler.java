@@ -3,7 +3,7 @@ package com.meditec.utilities;
 import java.util.Calendar;
 import org.json.JSONObject;
 
-import com.ibm.json.java.JSONArray;
+import org.json.JSONArray;
 import com.meditec.datastructures.List;
 import com.meditec.datastructures.Node;
 import com.meditec.medmanagement.Appointment;
@@ -34,6 +34,7 @@ public class JSONHandler {
 		JSONObject json_appointment = new JSONObject();
 		
 		String message = "NO HAY CITA ASIGNADA";
+		String message2 = "NO DISPONIBLE";
 		
 		if (appointment == null) {
 			json_appointment.put("code", message);
@@ -49,13 +50,21 @@ public class JSONHandler {
 			json_appointment.put("code", appointment.number());
 			json_appointment.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
 			json_appointment.put("symptoms", appointment.symptoms());
-			//TODO: modificar solo se estan mandando los medicamentos y examenes de un solo caso.
-			json_appointment.put("medication", appointment.related_clinic_cases().root().data().get_medication_list());
-			json_appointment.put("tests", appointment.related_clinic_cases().root().data().get_tests_list());
-			json_appointment.put("cases", appointment.get_cases_list());
-			json_appointment.put("price", appointment.total_cost());
-			json_appointment.put("medic", appointment.medic());
-			json_appointment.put("finished", appointment.is_finished());
+			try {
+				json_appointment.put("medication", appointment.related_clinic_cases().root().data().get_medication_list());
+				json_appointment.put("tests", appointment.related_clinic_cases().root().data().get_tests_list());
+				json_appointment.put("cases", appointment.get_cases_list());
+				json_appointment.put("price", appointment.total_cost());
+				json_appointment.put("medic", appointment.medic());
+				json_appointment.put("finished", appointment.is_finished());
+			} catch (NullPointerException e) {
+				json_appointment.put("medication", message2);
+				json_appointment.put("tests", message2);
+				json_appointment.put("cases", message2);
+				json_appointment.put("price", message2);
+				json_appointment.put("medic", message2);
+				json_appointment.put("finished", appointment.is_finished());
+			}
 		}	
 		return json_appointment.toString();
 	}
@@ -82,7 +91,7 @@ public class JSONHandler {
 		return json_details.toString();
 	}
 	
-	public static String parse_clinic_case(ClinicCase clinic_case){
+	public static String build_json_clinic_case(ClinicCase clinic_case){
 		JSONObject clinic_case_details = new JSONObject();
 		clinic_case_details.put("medication", clinic_case.get_medication_list());
 		clinic_case_details.put("tests", clinic_case.get_tests_list());
@@ -90,7 +99,7 @@ public class JSONHandler {
 		return  clinic_case_details.toString();
 	}
 	
-	public static MedicTest build_new_test(String test){
+	public static MedicTest parse_new_test(String test){
 		JSONObject new_case = new JSONObject(test);
 		return new MedicTest(new_case.getString("name"), new_case.getString("cost"), String.valueOf(IdentifiersGenerator.generate_new_key(4)));
 	}
@@ -109,7 +118,7 @@ public class JSONHandler {
 		return json_test.toString();
 	} 
 	
-	public static Medication build_new_medication(String medication){
+	public static Medication parse_new_medication(String medication){
 		JSONObject new_medication = new JSONObject(medication);
 		return new Medication(new_medication.getString("name"), new_medication.getString("cost"), String.valueOf(IdentifiersGenerator.generate_new_key(4)));
 	}
@@ -118,7 +127,7 @@ public class JSONHandler {
 		return new JSONObject(info);
 	}
 	
-	public static JSONObject appointment_to_json(Appointment appointment){
+	public static JSONObject get_appointment_email_details(Appointment appointment){
 		
 		JSONObject details = new JSONObject();
 		
@@ -152,6 +161,16 @@ public class JSONHandler {
 			return json_comments.toString();
 		}else {
 			return json_comments.toString();
+		}
+	}
+	
+	public static void process_recorded_symptoms(String info, List<String> list) {
+		
+		JSONArray array = new JSONArray(info);
+		
+		for(int i = 0; i < array.length(); i++){
+			System.out.println(array.get(i));
+			list.add_last((String) array.get(i));
 		}
 	}
 }

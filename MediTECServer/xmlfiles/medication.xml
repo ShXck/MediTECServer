@@ -1,149 +1,149 @@
-<medicationList>
-	<medication id = "0001">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><medicationList>
+	<medication id="0001">
 		<name>Acetaminofen</name>
 		<price>500</price>
 	</medication>
-	<medication id = "0002">
+	<medication id="0002">
 		<name>Acertol</name>
 		<price>20000</price>
 	</medication>
-	<medication id = "0003">
+	<medication id="0003">
 		<name>Absorlent</name>
 		<price>12000</price>
 	</medication>
-	<medication id = "0004">
+	<medication id="0004">
 		<name>Aciclovir</name>
 		<price>15000</price>
 	</medication>
-	<medication id = "0005">
+	<medication id="0005">
 		<name>Aciphex</name>
 		<price>7500</price>
 	</medication>
-	<medication id = "0006">
+	<medication id="0006">
 		<name>Acrel</name>
 		<price>2000</price>
 	</medication>
-	<medication id = "0007">
+	<medication id="0007">
 		<name>Actonel</name>
 		<price>35000</price>
 	</medication>
-	<medication id = "0008">
+	<medication id="0008">
 		<name>Adulax</name>
 		<price>22500</price>
 	</medication>	
-	<medication id = "0009">
+	<medication id="0009">
 		<name>Aerius</name>
 		<price>60000</price>
 	</medication>
-	<medication id = "0010">
+	<medication id="0010">
 		<name>Alcis</name>
 		<price>36000</price>
 	</medication>
-	<medication id = "0011">
+	<medication id="0011">
 		<name>Aerius</name>
 		<price>60000</price>
 	</medication>
-	<medication id = "0012">
+	<medication id="0012">
 		<name>Biocef</name>
 		<price>10000</price>
 	</medication>
-	<medication id = "0013">
+	<medication id="0013">
 		<name>Biolid</name>
 		<price>9200</price>
 	</medication>
-	<medication id = "0014">
+	<medication id="0014">
 		<name>Brionil</name>
 		<price>17000</price>
 	</medication>
-	<medication id = "0015">
+	<medication id="0015">
 		<name>Britapen</name>
 		<price>25000</price>
 	</medication>
-	<medication id = "0016">
+	<medication id="0016">
 		<name>CalcioD</name>
 		<price>1000</price>
 	</medication>
-	<medication id = "0017">
+	<medication id="0017">
 		<name>Canesten</name>
 		<price>5000</price>
 	</medication>
-	<medication id = "0018">
+	<medication id="0018">
 		<name>Cefoxitina</name>
 		<price>55000</price>
 	</medication>
-	<medication id = "0019">
+	<medication id="0019">
 		<name>Cellcept</name>
 		<price>14000</price>
 	</medication>
-	<medication id = "0020">
+	<medication id="0020">
 		<name>Biolid</name>
 		<price>9200</price>
 	</medication>
-	<medication id = "0021">
+	<medication id="0021">
 		<name>Dalgen</name>
 		<price>14500</price>
 	</medication>
-	<medication id = "0022">
+	<medication id="0022">
 		<name>Daonil</name>
 		<price>45000</price>
 	</medication>
-	<medication id = "0023">
+	<medication id="0023">
 		<name>Dexafree</name>
 		<price>30000</price>
 	</medication>
-	<medication id = "0024">
+	<medication id="0024">
 		<name>Dihydergot</name>
 		<price>35450</price>
 	</medication>
-	<medication id = "0025">
+	<medication id="0025">
 		<name>Elocom</name>
 		<price>8900</price>
 	</medication>
-	<medication id = "0026">
+	<medication id="0026">
 		<name>Enit</name>
 		<price>45500</price>
 	</medication>
-	<medication id = "0027">
+	<medication id="0027">
 		<name>Esertia</name>
 		<price>5700</price>
 	</medication>
-	<medication id = "0028">
+	<medication id="0028">
 		<name>Metrogel</name>
 		<price>26500</price>
 	</medication>
-	<medication id = "0028">
+	<medication id="0028">
 		<name>Tretraciclina</name>
 		<price>47850</price>
 	</medication>
-	<medication id = "0029">
+	<medication id="0029">
 		<name>Esteroides</name>
 		<price>57450</price>
 	</medication>
-	<medication id = "0030">
+	<medication id="0030">
 		<name>Nexium</name>
 		<price>14500</price>
 	</medication>
-	<medication id = "0031">
+	<medication id="0031">
 		<name>Prilosec</name>
 		<price>7500</price>
 	</medication>
-	<medication id = "0032">
+	<medication id="0032">
 		<name>Gotas</name>
 		<price>12500</price>
 	</medication>
-	<medication id = "0033">
+	<medication id="0033">
 		<name>Alopurinol</name>
 		<price>11200</price>
 	</medication>
-	<medication id = "0034">
+	<medication id="0034">
 		<name>Cortisona</name>
 		<price>12500</price>
 	</medication>
-	<medication id = "0035">
+	<medication id="0035">
 		<name>Antibioticos</name>
 		<price>9000</price>
 	</medication>
-	<medication id = "0036">
+	<medication id="0036">
 		<name>Diureticos</name>
 		<price>13600</price>
 	</medication>
