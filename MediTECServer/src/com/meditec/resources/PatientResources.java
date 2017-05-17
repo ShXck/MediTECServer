@@ -25,6 +25,11 @@ public class PatientResources {
 	
 	public static AVLTree<Patient>  patients_tree = new AVLTree<>();
 	
+	/**
+	 * Valida el estado de la cuenta de los pacientes, si no estan registrados se agregan.
+	 * @param json_info la informacion del cliente.
+	 * @return estado de la cuenta.
+	 */
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -42,12 +47,15 @@ public class PatientResources {
 		return Response.ok("{status:unblocked}").build();
 	}
 	
+	/**
+	 * Reserva una cita.
+	 * @param json_appointment los detalles de la cita.
+	 * @return Mensaje de verificacion.
+	 */
 	@POST
 	@Path("/book")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response book_appointment(String json_appointment){
-		
-		System.out.println(json_appointment);
 	
 		JSONObject appointment = new JSONObject(json_appointment);
 		
@@ -66,6 +74,9 @@ public class PatientResources {
 		return Response.ok("Your Appointment is set").build();
 	}
 	
+	/**
+	 * @return la lista de médicos.
+	 */
 	@GET
 	@Path("/medics_list")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -73,6 +84,10 @@ public class PatientResources {
 		return Response.ok(Finder.get_all_medics().toString()).build();
 	}
 	
+	/**
+	 * @param patient_name el nombre del paciente.
+	 * @return los detalles de la cita.
+	 */
 	@GET
 	@Path("/{patient}/appointments")
 	public Response get_appointment_detail(@PathParam("patient") String patient_name){
@@ -80,6 +95,12 @@ public class PatientResources {
 		return Response.ok(JSONHandler.get_appointment_overview(p.current_appointment())).build();
 	}
 	
+	/**
+	 * Elimina la cita.
+	 * @param med_code la identificación del médico.
+	 * @param patient_name el nombre del paciente.
+	 * @return Mensaje de verificación.
+	 */
 	@DELETE
 	@Path("/{patient}/appointments")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -92,6 +113,11 @@ public class PatientResources {
 		return Response.ok("Your appointment has been cancelled").build();
 	}
 	
+	/**
+	 * Paga la cita.
+	 * @param patient_name el nombre del paciente.
+	 * @return Mesnaje de verificacion.
+	 */
 	@DELETE
 	@Path("/{patient}/pay")
 	public Response pay_appointment(@PathParam("patient") String patient_name){
@@ -100,6 +126,12 @@ public class PatientResources {
 		return Response.ok("Appointmetn paid!").build();
 	}
 	
+	/**
+	 * Registra los comentarios del usuario.
+	 * @param feedback los comentarios hechos.
+	 * @param name el nombre del paciente.
+	 * @return Mensaje de verificacion.
+	 */
 	@POST
 	@Path("{id}/rate")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -112,6 +144,10 @@ public class PatientResources {
 		return Response.ok("Your comments were added succesfully!").build();
 	}
 	
+	/**
+	 * @param patient_name el nombre del paciente.
+	 * @return la ultima cita del paciente.
+	 */
 	@GET
 	@Path("/{id}/appointments/last")
 	public Response get_last_appointment_info(@PathParam("id") String patient_name){
@@ -119,7 +155,10 @@ public class PatientResources {
 		return Response.ok(JSONHandler.get_appointment_overview(patient.last_appointment())).build();
 	}
 	
-	
+	/**
+	 * Procesa al nuevo cliente.
+	 * @param p el nuevo cliente.
+	 */
 	private void process_client(Patient p){
 		patients_tree.insert(p);
 		Mailer.send_qr(p.email(), p.name());

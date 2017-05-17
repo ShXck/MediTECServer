@@ -36,6 +36,11 @@ public class MedicResources {
 	public static AVLTree<Medication> medication = new AVLTree<>();
 	private static boolean flag = false;
 	
+	/**
+	 * Revisa el estado de la cuenta de los médicos. Si no se encuentra registrado se agrega.
+	 * @param json_info informacion básica del médico.
+	 * @return el identificador del médico.
+	 */
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -63,6 +68,10 @@ public class MedicResources {
 		return Response.ok(JSONHandler.get_identifier(medic.code())).build();
 	}
 	
+	/**
+	 * @param id la identificación del médico.
+	 * @return Las citas de la agenda.
+	 */
 	@GET
 	@Path("/{id}/appointments")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -71,6 +80,11 @@ public class MedicResources {
 		return Response.ok(appointments.toString()).build();
 	}
 	
+	/**
+	 * @param id la identificación del médico.
+	 * @param patient_name el nombre del paciente.
+	 * @return la información de la cita.
+	 */
 	@GET
 	@Path("/{id}/appointments/{patient}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -80,6 +94,13 @@ public class MedicResources {
 		return Response.ok(JSONHandler.get_json_appointment(appointment)).build();
 	}
 	
+	/**
+	 * Edita los detalles de la cita.
+	 * @param updated_info la información actualizada.
+	 * @param id la identificación del médico.
+	 * @param patient el nombre del paciente.
+	 * @return un mensaje de verificación.
+	 */
 	@PUT
 	@Path("/{id}/appointments/{patient}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -91,6 +112,12 @@ public class MedicResources {
 		return Response.ok("Appointment edited!").build();
 	}
 	
+	/**
+	 * Termina la cita.
+	 * @param code identificador del médico.
+	 * @param patient_name nombre del paciente.
+	 * @return Mensaje de verificación.
+	 */
 	@DELETE
 	@Path("/{id}/appointments/{patient}")
 	public Response end_appointment(@PathParam("id") String code, @PathParam("patient") String patient_name){
@@ -104,6 +131,11 @@ public class MedicResources {
 		return Response.ok("appointment finished succesfully").build();
 	}
 	
+	/**
+	 * Crea un nuevo caso clinico.
+	 * @param case_info la información del nuevo caso.
+	 * @return Mensaje de verificación.
+	 */
 	@POST
 	@Path("/cases/new_case")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -115,12 +147,20 @@ public class MedicResources {
 		return Response.ok("Clinic case succesfully created").build();
 	}
 	
+	/**
+	 * @return la lista de casos clínicos.
+	 */
 	@GET
 	@Path("/cases")
 	public Response get_cases_list() {
 		return Response.ok(Finder.get_all_cases(cases).toString()).build();
 	}
 	
+	/**
+	 * Elimina un caso clínico.
+	 * @param case_name el nombre del caso.
+	 * @return Mensaje de verificación.
+	 */
 	@DELETE
 	@Path("/cases/{name}")
 	public Response delete_clinic_case(@PathParam("name") String case_name) {
@@ -128,6 +168,10 @@ public class MedicResources {
 		return Response.ok("Case removed successfully").build();
 	}
 	
+	/**
+	 * @param name nombre del caso clínico.
+	 * @return los detalles del caso.
+	 */
 	@GET
 	@Path("/cases/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -135,6 +179,12 @@ public class MedicResources {
 		return Response.ok(JSONHandler.build_json_clinic_case(Finder.find_case(name,cases))).build();
 	}
 	
+	/**
+	 * Edita detalles de un caso clínico.
+	 * @param json_details los detalles actualizados.
+	 * @param case_name el nombre del caso.
+	 * @return Mensaje de verificación.
+	 */
 	@PUT
 	@Path("/cases/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -145,6 +195,9 @@ public class MedicResources {
 		return Response.ok("Clinic Case Edited!").build();
 	}
 	
+	/**
+	 * @return la lista de exámenes médicos.
+	 */
 	@GET
 	@Path("/tests")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -152,6 +205,11 @@ public class MedicResources {
 		return Response.ok(Finder.get_all_tests(tests).toString()).build();
 	}
 	
+	/**
+	 * Crear un nuevo examen.
+	 * @param new_test los detalles del examen.
+	 * @return Mensaje de verificación.
+	 */
 	@POST
 	@Path("/tests/new_test")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -162,6 +220,11 @@ public class MedicResources {
 		return Response.ok("Test created succesfully").build();
 	}
 	
+	/**
+	 * Elimina un examen médico.
+	 * @param name el nombre del examen.
+	 * @return Mensaje de verificación.
+	 */
 	@DELETE
 	@Path("/tests/{name}")
 	public Response delete_test(@PathParam("name") String name){
@@ -170,6 +233,12 @@ public class MedicResources {
 		
 	}
 	
+	/**
+	 * Edita detalles de un examen médico.
+	 * @param new_info información actualizada.
+	 * @param name el nombre del examen.
+	 * @return
+	 */
 	@PUT
 	@Path("/tests/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -181,6 +250,10 @@ public class MedicResources {
 		return Response.ok("Test updated!").build();
 	}
 	
+	/**
+	 * @param name el nombre del examen.
+	 * @return los detalles del examen.
+	 */
 	@GET
 	@Path("/tests/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -188,6 +261,9 @@ public class MedicResources {
 		return Response.ok(JSONHandler.build_test_details(Finder.find_test(name, tests))).build();
 	}
 	
+	/**
+	 * @return la lista de los medicamentos.
+	 */
 	@GET
 	@Path("/medication")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -195,6 +271,11 @@ public class MedicResources {
 		return Response.ok(Finder.get_all_medication(medication).toString()).build();
 	}
 	
+	/**
+	 * Elimina un medicamento.
+	 * @param name el nombre del medicamento.
+	 * @return Mensaje de verificación.
+	 */
 	@DELETE
 	@Path("/medication/{name}")
 	public Response delete_medication(@PathParam("name") String name){
@@ -202,6 +283,12 @@ public class MedicResources {
 		return Response.ok("Medication removed!").build();
 	}
 	
+	/**
+	 * Edita los detalles de un medicamento.
+	 * @param info la información actualizada.
+	 * @param name el nombre dle medicamento.
+	 * @return Mensaje de verificación.
+	 */
 	@PUT
 	@Path("/medication/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -213,13 +300,22 @@ public class MedicResources {
 		return Response.ok("Medication updated!").build();
 	}
 	
+	/**
+	 * @param name el nombre del medicamento.
+	 * @return los detalles de la medicación.
+	 */
 	@GET
 	@Path("/medication/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get_medication_details(@PathParam("name") String name){
 		return Response.ok(JSONHandler.build_medication_details(Finder.find_medication(name, medication))).build();
 	}
-		
+	
+	/**
+	 * Crea un nuevo medicamento.
+	 * @param new_medication la información dle medicamento.
+	 * @return Mensaje de verificación.
+	 */
 	@POST
 	@Path("/medication/new_medication")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -230,6 +326,10 @@ public class MedicResources {
 		return Response.ok(medication.name() + " created!").build();		
 	}
 	
+	/**
+	 * @param medic_code la identificación del médico.
+	 * @return los comentarios del médico.
+	 */
 	@GET
 	@Path("/{id}/feedback")
 	public Response get_feedback(@PathParam("id") String medic_code){
@@ -237,6 +337,10 @@ public class MedicResources {
 		return Response.ok(medic.get_comments()).build();
 	}
 	
+	/**
+	 * Procesa un nuevo médico.
+	 * @param medic el médico  nuevo.
+	 */
 	private void process_medic(Medic medic){
 		medic_tree.insert(medic, IdentifiersGenerator.generate_new_key(3));
 	}

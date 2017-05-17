@@ -23,11 +23,16 @@ import javax.mail.internet.MimeMultipart;
 
 public class Mailer {
 	
-	private static final String SENDER = "m4ss97@gmail.com";
-	private static final String PASSWORD = "jijijijajaja516";
+	private static final String SENDER = "some@email.com";
+	private static final String PASSWORD = "******";
 	private static final String HOST = "smtp.gmail.com";
 	private static final String PORT = "587";
-
+	
+	/**
+	 * Envia un codigo QR al correo del paciente.
+	 * @param receiver el correo destino.
+	 * @param name el nombre del paciente.
+	 */
 	public static void send_qr(String receiver, String name){
 		
 		final String SUBJECT = "Desbloquea tu aplicación";
@@ -82,6 +87,10 @@ public class Mailer {
 		}
 	}
 	
+	/**
+	 * Envia una notificacion al médico sobre una nueva cita.
+	 * @param receiver el correo destino.
+	 */
 	public static void send_appointment_email(String receiver){
 		
 		final String SUBJECT = "Nueva cita";
@@ -128,6 +137,15 @@ public class Mailer {
 		}			
 	}
 	
+	/**
+	 * Envia un correo al paciente con los detalles finales de la cita.
+	 * @param receiver el correo destino.
+	 * @param symptoms 
+	 * @param treatment
+	 * @param tests
+	 * @param cases
+	 * @param cost
+	 */
 	public static void send_appointment_info(String receiver,String symptoms, String treatment, String tests, String cases , int cost){
 		
 		final String SUBJECT = "Informacion de la cita";

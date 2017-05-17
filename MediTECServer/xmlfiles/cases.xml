@@ -24,4 +24,44 @@
 		<medication>Antibioticos,Diureticos,Alopurinol</medication>			
 		<tests>Sangre,Orina,Radiografia,Tomografia,Ecografia</tests>
 	</case>
-<case id="6910"><name>Cancer</name><medication>Dexafree,Enit,</medication><tests>Sangre,Tomografia,</tests></case></CasesList>
+	<case id="0006"> 
+		<name>Alzheimer</name>
+		<medication>Razadyne,Exelon,Aricept</medication>
+		<tests>Neurologico,PET</tests>
+	</case>	
+	<case id="0007"> 
+		<name>Esclerosis</name>
+		<medication>Modificadores</medication>
+		<tests>Conteo de celulas,MRI</tests>
+	</case>	
+	<case id="0008"> 
+		<name>Diabetes</name>
+		<medication>Insulina</medication>
+		<tests>Analisis de acetonas</tests>
+	</case>	
+	<case id="0009"> 
+		<name>Malaria</name>
+		<medication>General</medication>
+		<tests>Analisis de acetonas</tests>
+	</case>	
+	<case id="0010"> 
+		<name>Gastritis</name>
+		<medication>Antiacidos,Famotidina</medication>
+		<tests>Sangre,Endoscopia,Coprologico</tests>
+	</case>	
+	<case id="0011"> 
+		<name>Asma</name>
+		<medication>Broncodilatadores,Antiinflamatorios</medication>
+		<tests>Radiografia,Sangre,Gastrometria</tests>
+	</case>	
+	<case id="0012"> 
+		<name>Cistitis</name>
+		<medication>Pentosano,Hidroxizina,Amitriptilina</medication>
+		<tests>Cistoscopia</tests>
+	</case>
+	<case id="0013"> 
+		<name>Osteoporosis</name>
+		<medication>Bifosfatos,Calcio</medication>
+		<tests>Radiografia,Resonancia Magnetica</tests>
+	</case>	
+</CasesList>

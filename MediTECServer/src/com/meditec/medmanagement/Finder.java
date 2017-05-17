@@ -1,5 +1,6 @@
 package com.meditec.medmanagement;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import com.meditec.clientmanagement.Patient;
 import com.meditec.datastructures.AVLNode;
@@ -14,16 +15,17 @@ import com.meditec.resources.PatientResources;
 public class Finder {
 	
 	public static JSONObject get_all_medics(){
-		return get_all_medics(MedicResources.medic_tree.root(), new JSONObject(), 1);
+		JSONObject medics = new JSONObject();
+		medics.put("medics", get_all_medics(MedicResources.medic_tree.root(), new JSONArray()));
+		return medics;
 	}
 	
-	private static JSONObject get_all_medics(SplayNode<Medic> node, JSONObject json, int count){
+	private static JSONArray get_all_medics(SplayNode<Medic> node, JSONArray json){
 		if (node != null) {
-			get_all_medics(node.left, json, count + 1);
-			json.put(String.valueOf(count), node.element.code());
-			get_all_medics(node.right, json, count + 1);
+			get_all_medics(node.left, json);
+			json.put(node.element.code());
+			get_all_medics(node.right, json);
 		}
-		json.put("count", MedicResources.medic_tree.countNodes());
 		return json;
 	}
 
@@ -91,17 +93,18 @@ public class Finder {
 	
 	public static JSONObject get_medic_appointments(String id){
 		Medic medic = find_medic_by_code(id);
-		return get_medic_appointments(medic.agenda().appointments().root(), new JSONObject(), 1, medic);
+		JSONObject appointments = new JSONObject();
+		appointments.put("appointments", get_medic_appointments(medic.agenda().appointments().root(), medic, new JSONArray()));
+		return appointments;
 	}
 	
-	private static JSONObject get_medic_appointments(AVLNode<Appointment> node, JSONObject json, int count, Medic medic){
+	private static JSONArray get_medic_appointments(AVLNode<Appointment> node, Medic medic, JSONArray array){
 		if (node != null) {
-			get_medic_appointments(node.left(), json, count + 1,medic);
-			json.put(String.valueOf(count), node.data().patient());
-			get_medic_appointments(node.right(), json, count + 1,medic);
+			get_medic_appointments(node.left(), medic, array);
+			array.put(node.data().patient());
+			get_medic_appointments(node.right(), medic, array);
 		}
-		json.put("count", count);
-		return json;
+		return array;
 	}
 	
 	public static Appointment get_appointment(String name, AVLTree<Appointment> tree){
@@ -173,16 +176,16 @@ public class Finder {
 	}
 	
 	public static JSONObject get_all_cases(BinaryTree<ClinicCase> tree){
-		return get_all_cases(tree.root(), new JSONObject(), 1);
+		JSONObject cases = new JSONObject();
+		cases.put("cases", get_all_cases(tree.root(), new JSONArray()));
+		return cases;
 	}
 	
-	private static JSONObject get_all_cases(TreeNode<ClinicCase> node, JSONObject json, int count){
+	private static JSONArray get_all_cases(TreeNode<ClinicCase> node, JSONArray json){
 		if (node != null) {
-			System.out.println(node.data().name());
-			get_all_cases(node.get_left(), json , count + 1);
-			json.put(String.valueOf(count), node.data().name());
-			json.put("count", count);
-			get_all_cases(node.get_right(), json, count + 1);
+			get_all_cases(node.get_left(), json);
+			json.put(node.data().name());
+			get_all_cases(node.get_right(), json);
 		}
 		return json;
 	}
@@ -228,30 +231,32 @@ public class Finder {
 	}
 	
 	public static JSONObject get_all_tests(SplayTree<MedicTest> tree){
-		return get_all_tests(tree.root(), new JSONObject(), 1);
+		JSONObject tests = new JSONObject();
+		tests.put("tests", get_all_tests(tree.root(), new JSONArray()));
+		return tests;
 	}
 	
-	private static JSONObject get_all_tests(SplayNode<MedicTest> node, JSONObject json, int count){
+	private static JSONArray get_all_tests(SplayNode<MedicTest> node, JSONArray json){
 		if (node != null) {
-			get_all_tests(node.left, json , count + 1);
-			json.put(String.valueOf(count), node.element.name());
-			json.put("count", count);
-			get_all_tests(node.right, json, count + 1);
+			get_all_tests(node.left, json);
+			json.put(node.element.name());
+			get_all_tests(node.right, json);
 		}
 		return json;
 	}
 	
 	public static JSONObject get_all_medication(AVLTree<Medication> tree){
-		return get_all_medication(tree.root(), new JSONObject(), 1);
+		JSONObject medication = new JSONObject();
+		medication.put("medication", get_all_medication(tree.root(), new JSONArray()));
+		return medication;
 	}
 	
-	private static JSONObject get_all_medication(AVLNode<Medication> node, JSONObject json, int count){
+	private static JSONArray get_all_medication(AVLNode<Medication> node, JSONArray json){
 		if (node != null) {
-			get_all_medication(node.left(), json , count + 1);
-			json.put(String.valueOf(count), node.data().name());
-			get_all_medication(node.right(), json, count + 1);
+			get_all_medication(node.left(), json);
+			json.put(node.data().name());
+			get_all_medication(node.right(), json);
 		}
-		json.put("count", MedicResources.medication.count());
 		return json;
 	}
 

@@ -147,4 +147,60 @@
 		<name>Diureticos</name>
 		<price>13600</price>
 	</medication>
+	<medication id="0037">
+		<name>Razadyne</name>
+		<price>15000</price>
+	</medication>
+	<medication id="0038">
+		<name>Exelon</name>
+		<price>7450</price>
+	</medication>
+	<medication id="0039">
+		<name>Aricept</name>
+		<price>12000</price>
+	</medication>
+	<medication id="0040">
+		<name>Modificadores</name>
+		<price>37500</price>
+	</medication>
+	<medication id="0041">
+		<name>Insulina</name>
+		<price>6500</price>
+	</medication>
+	<medication id="0042">
+		<name>Antiacidos</name>
+		<price>5000</price>
+	</medication>
+	<medication id="0043">
+		<name>Famotidina</name>
+		<price>11200</price>
+	</medication>
+	<medication id="0044">
+		<name>Broncodilatadores</name>
+		<price>9000</price>
+	</medication>
+	<medication id="0045">
+		<name>Antiinflamatorios</name>
+		<price>750</price>
+	</medication>
+	<medication id="0046">
+		<name>Pentosano</name>
+		<price>25500</price>
+	</medication>
+	<medication id="0047">
+		<name>Hidroxizina</name>
+		<price>47600</price>
+	</medication>
+	<medication id="0048">
+		<name>Amitriptilina</name>
+		<price>33000</price>
+	</medication>
+	<medication id="0049">
+		<name>Bifosfatos</name>
+		<price>10000</price>
+	</medication>
+	<medication id="0050">
+		<name>Calcio</name>
+		<price>3000</price>
+	</medication>
 </medicationList>

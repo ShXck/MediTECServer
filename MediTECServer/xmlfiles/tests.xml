@@ -59,4 +59,44 @@
 		<name>Ecografia</name>
 		<price>28300</price>
 	</test>
-<test id="73"><name>Tag</name><price>55000</price></test></TestList>
+	<test id="0016">	
+		<name>Tag</name>
+		<price>55000</price>
+	</test>
+	<test id="0017">	
+		<name>Neurologico</name>
+		<price>75000</price>
+	</test>
+	<test id="0018">	
+		<name>PET</name>
+		<price>125000</price>
+	</test>
+	<test id="0019">	
+		<name>MRI</name>
+		<price>265000</price>
+	</test>
+	<test id="0020">	
+		<name>Conteo de celulas</name>
+		<price>88000</price>
+	</test>
+	<test id="0021">	
+		<name>Analisis de acetonas</name>
+		<price>16000</price>
+	</test>
+	<test id="0022">	
+		<name>Coprologico</name>
+		<price>25000</price>
+	</test>
+	<test id="0023">	
+		<name>Gastrometria</name>
+		<price>14000</price>
+	</test>
+	<test id="0024">	
+		<name>Cistoscopia</name>
+		<price>50000</price>
+	</test>
+	<test id="0025">	
+		<name>Resonancia Magnetica</name>
+		<price>40000</price>
+	</test>
+</TestList>
