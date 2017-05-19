@@ -25,23 +25,43 @@ public class Medic implements Comparable<Medic>{
 		this.email = email;
 		this.comments = new List<>();
 	}
-
+	
+	/**
+	 * 
+	 * @return el código del médico
+	 */
 	public String code() {
 		return code;
 	}
-
+	
+	/**
+	 * 
+	 * @return la agenda del médico.
+	 */
 	public Agenda agenda() {
 		return agenda;
 	}
-
+	
+	/**
+	 * 
+	 * @return el nombre del médico.
+	 */
 	public String name() {
 		return name;
 	}
-
+	
+	/**
+	 * 
+	 * @return el email del médico.
+	 */
 	public String email() {
 		return email;
 	}
 	
+	/**
+	 * Agrega comentarios la lista.
+	 * @param comments los nuevos comentario.
+	 */
 	public void add_comments(String comments){
 		String[] comments_list = comments.split(",");
 		
@@ -50,6 +70,10 @@ public class Medic implements Comparable<Medic>{
 		}
 	}
 	
+	/**
+	 * 
+	 * @return los comentarios.
+	 */
 	public String get_comments(){
 		return JSONHandler.get_json_comments(comments);
 	}

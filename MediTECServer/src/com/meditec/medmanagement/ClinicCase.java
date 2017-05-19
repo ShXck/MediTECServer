@@ -20,44 +20,74 @@ public class ClinicCase implements Comparable<ClinicCase>{
 		set_medication(treatment);
 		set_tests(tests_case);	
 	}
-	
+
 	public ClinicCase(String name, String id, String treatment, String tests){
 		this(name, id , treatment, tests, new AVLTree<Medication>(), new SplayTree<MedicTest>());
 	}
 	
+	/**
+	 * @return el identificador del caso.
+	 */
 	public int key() {
 		return key;
 	}
 	
+	/**
+	 * @return El árbol con la medicación.
+	 */
 	public AVLTree<Medication> medication(){
 		return this.medication;
 	}
 	
+	/**
+	 * @return el árbol con los exámenes.
+	 */
 	public SplayTree<MedicTest> tests(){
 		return this.tests;
 	}
 	
+	/**
+	 * @return la lista de medicamentos del caso.
+	 */
 	public String get_medication_list(){
 		return Finder.get_medication_list(medication);
 	}
 	
+	/**
+	 * @return la lista de exámenes del caso.
+	 */
 	public String get_tests_list(){
 		return Finder.get_tests_list(tests);
 	}
 	
+	/**
+	 * @return el nombre del caso
+	 */
 	public String name(){
 		return name;
 	}
 	
+	/**
+	 * @return el precio total del caso.
+	 */
 	public int price(){
 		return price;
 	}
 	
+	/**
+	 * Edita los detalles del caso.
+	 * @param tests los exámenes médicos.
+	 * @param medication el tratamiento.
+	 */
 	public void edit_case(String tests, String medication){
 		edit_tests(tests);
 		edit_medication(medication);
 	}
 	
+	/**
+	 * Edita los exámenes médicos.
+	 * @param new_tests los nuevos exámenes.
+	 */
 	private void edit_tests(String new_tests){
 		String[] tests = new_tests.split(",");
 		
@@ -72,6 +102,10 @@ public class ClinicCase implements Comparable<ClinicCase>{
 		}
 	}
 	
+	/**
+	 * Edita los medicamentos.
+	 * @param new_medication los nuevos medicamentos.
+	 */
 	private void edit_medication(String new_medication){
 		String[] medication = new_medication.split(",");
 		
@@ -86,6 +120,10 @@ public class ClinicCase implements Comparable<ClinicCase>{
 		}
 	}
 	
+	/**
+	 * Asigna el tratamiento.
+	 * @param treatment el tratamiento nuevo.
+	 */
 	private void set_medication(String treatment){
 		
 		String[] medication = treatment.split(",");
@@ -97,6 +135,10 @@ public class ClinicCase implements Comparable<ClinicCase>{
 		}
 	}
 	
+	/**
+	 * asigna los exámenes médicos.
+	 * @param tests los nuevos exámenes.
+	 */
 	private void set_tests(String tests){
 		String[] tests_list = tests.split(",");
 		

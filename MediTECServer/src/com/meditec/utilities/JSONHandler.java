@@ -14,12 +14,22 @@ import com.meditec.medmanagement.Medication;
 
 public class JSONHandler {
 	
+	/**
+	 * 
+	 * @param id el identificador.
+	 * @return json con el id.
+	 */
 	public static String get_identifier(String id){
 		JSONObject identifier = new JSONObject();
 		identifier.put("id", id);		
 		return identifier.toString();
 	}
 	
+	/**
+	 * 
+	 * @param appointment la cita.
+	 * @return json con la informacion básica de la cita.
+	 */
 	public static String get_json_appointment(Appointment appointment){
 		JSONObject appointment_json = new JSONObject();
 		appointment_json.put("patient", appointment.patient());
@@ -29,6 +39,11 @@ public class JSONHandler {
 		return appointment_json.toString();    //TODO: Agregar al json informacion como los sintomas registrados en la deteccion por voz y demas, usando un algoritmo de nevgacion en el arbol para recoger todos los sintomas registrados.
 	}
 	
+	/**
+	 * 
+	 * @param appointment la cita.
+	 * @return json con información completa de la cita.
+	 */
 	public static String get_appointment_overview(Appointment appointment){
 		
 		JSONObject json_appointment = new JSONObject();
@@ -51,8 +66,8 @@ public class JSONHandler {
 			json_appointment.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
 			json_appointment.put("symptoms", appointment.symptoms());
 			try {
-				json_appointment.put("medication", appointment.related_clinic_cases().root().data().get_medication_list());
-				json_appointment.put("tests", appointment.related_clinic_cases().root().data().get_tests_list());
+				json_appointment.put("medication", appointment.get_appointment_medication());
+				json_appointment.put("tests", appointment.get_appointment_tests());
 				json_appointment.put("cases", appointment.get_cases_list());
 				json_appointment.put("price", appointment.total_cost());
 				json_appointment.put("medic", appointment.medic());
@@ -69,11 +84,20 @@ public class JSONHandler {
 		return json_appointment.toString();
 	}
 	
+	/**
+	 * @param json_code json con un id.
+	 * @return el id.
+	 */
 	public static String get_code(String json_code){
 		JSONObject code_json = new JSONObject(json_code);
 		return code_json.getString("code");
 	}
 	
+	/**
+	 * 
+	 * @param new_case la información del nuevo caso
+	 * @return el caso construido.
+	 */
 	public static ClinicCase parse_new_clinic_case(String new_case){
 		JSONObject new_json_case = new JSONObject(new_case);
 		new_json_case.put("id", String.valueOf(IdentifiersGenerator.generate_new_key(4)));
@@ -84,6 +108,12 @@ public class JSONHandler {
 		return new_case_obj;
 	}
 	
+	/**
+	 * 
+	 * @param medication la medicación del caso.
+	 * @param tests los exámenes del caso.
+	 * @return el json con la información dle caso.
+	 */
 	public static String build_json_case_details(String medication, String tests) {
 		JSONObject json_details = new JSONObject();
 		json_details.put("medication", medication);
@@ -91,6 +121,11 @@ public class JSONHandler {
 		return json_details.toString();
 	}
 	
+	/**
+	 * 
+	 * @param clinic_case un caso clinico.
+	 * @return el json con la informacion del caso.
+	 */
 	public static String build_json_clinic_case(ClinicCase clinic_case){
 		JSONObject clinic_case_details = new JSONObject();
 		clinic_case_details.put("medication", clinic_case.get_medication_list());
@@ -99,11 +134,21 @@ public class JSONHandler {
 		return  clinic_case_details.toString();
 	}
 	
+	/**
+	 * 
+	 * @param test un exámen médico.
+	 * @return un nuevo exámen médico.
+	 */
 	public static MedicTest parse_new_test(String test){
 		JSONObject new_case = new JSONObject(test);
 		return new MedicTest(new_case.getString("name"), new_case.getString("cost"), String.valueOf(IdentifiersGenerator.generate_new_key(4)));
 	}
 	
+	/**
+	 * 
+	 * @param test un exámen médico.
+	 * @return el json con la información del exámen.
+	 */
 	public static String build_test_details(MedicTest test){
 		JSONObject json_test = new  JSONObject();
 		json_test.put("name", test.name());
@@ -111,6 +156,11 @@ public class JSONHandler {
 		return json_test.toString();
 	} 
 	
+	/**
+	 * 
+	 * @param medication un medicamento.
+	 * @return el json con la información del medicamento.
+	 */
 	public static String build_medication_details(Medication medication){
 		JSONObject json_test = new  JSONObject();
 		json_test.put("name", medication.name());
@@ -118,15 +168,28 @@ public class JSONHandler {
 		return json_test.toString();
 	} 
 	
+	/**
+	 * @param medication la información del nuevo medicamento.
+	 * @return un objeto con un nuevo medicamento.
+	 */
 	public static Medication parse_new_medication(String medication){
 		JSONObject new_medication = new JSONObject(medication);
 		return new Medication(new_medication.getString("name"), new_medication.getString("cost"), String.valueOf(IdentifiersGenerator.generate_new_key(4)));
 	}
 	
+	/**
+	 * método generico para parsear cualquier informacion en json.
+	 * @param info la info en json.
+	 * @return la información como objeto json.
+	 */
 	public static JSONObject parse(String info){
 		return new JSONObject(info);
 	}
 	
+	/**
+	 * @param appointment una cita.
+	 * @return un objeto json con la información de la cita.
+	 */
 	public static JSONObject get_appointment_email_details(Appointment appointment){
 		
 		JSONObject details = new JSONObject();
@@ -134,14 +197,19 @@ public class JSONHandler {
 		details.put("code", appointment.number());
 		details.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
 		details.put("symptoms", appointment.symptoms());
-		details.put("medication", appointment.related_clinic_cases().root().data().get_medication_list());
-		details.put("tests", appointment.related_clinic_cases().root().data().get_tests_list());
+		details.put("medication", appointment.get_appointment_medication());
+		details.put("tests", appointment.get_appointment_tests());
 		details.put("cases", appointment.get_cases_list());
 		details.put("price", appointment.total_cost());
 		
 		return details;
 	}
 	
+	/**
+	 * Construye un json de los comentarios de un médico.
+	 * @param comments la lista de comentarios.
+	 * @return la lista en json.
+	 */
 	public static String get_json_comments(List<String> comments){
 		
 		JSONObject json_comments = new JSONObject();
@@ -164,6 +232,11 @@ public class JSONHandler {
 		}
 	}
 	
+	/**
+	 * Procesa los síntomas captados por voz.
+	 * @param info los síntomas.
+	 * @param list la lista donde se agregan los síntomas.
+	 */
 	public static void process_recorded_symptoms(String info, List<String> list) {
 		
 		JSONArray array = new JSONArray(info);

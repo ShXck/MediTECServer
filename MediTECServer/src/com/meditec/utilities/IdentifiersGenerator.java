@@ -6,6 +6,10 @@ public class IdentifiersGenerator {
 	
 	private static SecureRandom rd = new SecureRandom();
 	
+	/**
+	 * @param lenght el largo del id.
+	 * @return un id aleatorio.
+	 */
 	public static String generate_new_code(int lenght){
 		
 		final String OPTIONS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -18,6 +22,11 @@ public class IdentifiersGenerator {
 		return sb.toString();	
 	}
 	
+	/**
+	 * 
+	 * @param lenght el largo del key.
+	 * @return un key numérico aleatorio.
+	 */
 	public static int generate_new_key(int lenght){
 		
 		final String OPTIONS = "0123456789";
@@ -30,7 +39,11 @@ public class IdentifiersGenerator {
 		return Integer.parseInt(sb.toString());
 	}
 	
-	public static String generate__name(int lenght){
+	/**
+	 * @param lenght el largo del nombre.
+	 * @return un nombre aleatorio.
+	 */
+	public static String generate_name(int lenght){
 		final String OPTIONS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		
 		StringBuilder sb = new StringBuilder(lenght);

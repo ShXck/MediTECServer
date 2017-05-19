@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.json.JSONArray;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,6 +22,7 @@ import org.xml.sax.SAXException;
 
 import com.meditec.datastructures.AVLTree;
 import com.meditec.datastructures.BinaryTree;
+import com.meditec.datastructures.List;
 import com.meditec.datastructures.SplayTree;
 import com.meditec.medmanagement.ClinicCase;
 import com.meditec.medmanagement.MedicTest;
@@ -28,6 +30,11 @@ import com.meditec.medmanagement.Medication;
 
 public class XMLHandler {
 	
+	/**
+	 * Encuentra un medicamento en los archivos XML.
+	 * @param name el nombre del medicamento.
+	 * @return el objeto medicamento.
+	 */
 	public static Medication find_medication(String name){
 		try{
 			File medication_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/medication.xml");
@@ -54,6 +61,11 @@ public class XMLHandler {
 		return null;
 	}
 	
+	/**
+	 * Encuentra un exámen en los archivos XML.
+	 * @param name el nombre del examen.
+	 * @return el objeto examen.
+	 */
 	public static MedicTest find_test(String name){
 		try{
 			File tests_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/tests.xml");
@@ -80,6 +92,44 @@ public class XMLHandler {
 		return null;
 	}
 	
+	/**
+	 * Encuentra un caso en el xml.
+	 * @param name el nombre del caso.
+	 * @return el objeto con el caso clínico.
+	 */
+	public static ClinicCase find_case(String name){
+		try{
+			File cases_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/cases.xml");
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(cases_file);
+			
+			document.getDocumentElement().normalize();
+			
+			NodeList node_list = document.getElementsByTagName("case");
+			
+			for(int temp = 0; temp < node_list.getLength(); temp++){
+				Node node = node_list.item(temp);
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) node;
+					if (element.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(name)) {
+						return new ClinicCase((element.getElementsByTagName("name").item(0).getTextContent()) ,   
+								element.getAttribute("id"),
+								element.getElementsByTagName("medication").item(0).getTextContent(),
+								element.getElementsByTagName("tests").item(0).getTextContent());
+					}
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Añade todos los casos a un árbol.
+	 * @param cases_tree el arbol de los casos.
+	 */
 	public static void add_cases_to_tree(BinaryTree<ClinicCase> cases_tree){
 		try{
 			File cases_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/cases.xml");
@@ -108,6 +158,10 @@ public class XMLHandler {
 		}
 	}
 	
+	/**
+	 * Añade los exámenes a un árbol.
+	 * @param tests_tree el árbol de casos.
+	 */
 	public static void add_tests_to_tree(SplayTree<MedicTest> tests_tree){
 		try{
 			File cases_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/tests.xml");
@@ -132,6 +186,10 @@ public class XMLHandler {
 		}
 	}
 	
+	/**
+	 * Añade los medicamentos del XML al árbol.
+	 * @param medication_tree el árbol donde se añaden.
+	 */
 	public static void add_medication_to_tree(AVLTree<Medication> medication_tree){
 		try{
 			File cases_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/medication.xml");
@@ -156,6 +214,12 @@ public class XMLHandler {
 		}
 	}
 	
+	/**
+	 * Agrega un nuevo medicamento a los XML.
+	 * @param name el nombre.
+	 * @param cost el costo.
+	 * @param id la identificacion.
+	 */
 	public static void write_medication(String name, String cost, String id){
 		try {
 			
@@ -286,4 +350,5 @@ public class XMLHandler {
 			s.printStackTrace();
 		}
 	}
+	
 }

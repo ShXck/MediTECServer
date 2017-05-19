@@ -10,52 +10,66 @@ public class Patient implements Comparable<Patient>{
 	private String name;
 	private String email;
 	private int patient_code;
-	private ClinicCase clinic_case;
+	//private ClinicCase clinic_case;
 	private Appointment current_appointment;
 	private Appointment last_appointment;
 	
 	public Patient(String name, String email){
 		this.name = name;
 		this.email = email;
-		this.clinic_case = null;
+		//this.clinic_case = null;
 		this.patient_code = IdentifiersGenerator.generate_new_key(4);
 		this.current_appointment = null;
 		this.last_appointment = null;
 	}
 	
+	/**
+	 * @return el nombre del paciente.
+	 */
 	public String name(){
 		return this.name;
 	}
 	
-	public ClinicCase clinic_case(){
-		return this.clinic_case;
-	}
-	
-	public void set_clinic_case(ClinicCase new_case){
-		this.clinic_case = new_case;
-	}
-	
-	
+	/**
+	 * @return id del paciente.
+	 */
 	public int code(){
 		return this.patient_code;
 	}
 	
+	/**
+	 * @return el email del paciente.
+	 */
 	public String email(){
 		return this.email;
 	}
 	
+	/**
+	 * @return la cita actual.
+	 */
 	public Appointment current_appointment(){
 		return current_appointment;
 	}
 	
+	/**
+	 * Establece la cita actual.
+	 * @param appointment la nueva cita.
+	 */
 	public void set_current_appointment(Appointment appointment) {
 		this.current_appointment = appointment;
 	}
 	
+	/** 
+	 * @return la ultima cita.
+	 */
 	public Appointment last_appointment(){
 		return last_appointment;
 	}
 	
+	/**
+	 * Establece la ultima cita.
+	 * @param appointment la ultima cita.
+	 */
 	public void set_last_appointment(Appointment appointment) {
 		this.last_appointment = appointment;
 	}

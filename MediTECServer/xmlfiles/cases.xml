@@ -41,8 +41,8 @@
 	</case>	
 	<case id="0009"> 
 		<name>Malaria</name>
-		<medication>General</medication>
-		<tests>Analisis de acetonas</tests>
+		<medication>Esertia,Enit</medication>
+		<tests>Sangre,Orina,Heces,Radiografia</tests>
 	</case>	
 	<case id="0010"> 
 		<name>Gastritis</name>

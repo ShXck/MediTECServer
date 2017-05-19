@@ -24,6 +24,7 @@ import com.meditec.utilities.IdentifiersGenerator;
 import com.meditec.utilities.JSONHandler;
 import com.meditec.utilities.XMLHandler;
 import com.meditec.medmanagement.Appointment;
+import com.meditec.medmanagement.Chat;
 import com.meditec.medmanagement.ClinicCase;
 import com.meditec.medmanagement.Finder;
 
@@ -57,7 +58,7 @@ public class MedicResources {
 				XMLHandler.add_cases_to_tree(cases);
 				XMLHandler.add_tests_to_tree(tests);
 				XMLHandler.add_medication_to_tree(medication);
-				create_dummy_medics();
+				//create_dummy_medics();
 				flag = true;
 			}
 			return Response.ok(JSONHandler.get_identifier(new_medic.code())).build();
@@ -332,9 +333,46 @@ public class MedicResources {
 	 */
 	@GET
 	@Path("/{id}/feedback")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response get_feedback(@PathParam("id") String medic_code){
 		Medic medic = Finder.find_medic_by_code(medic_code);
 		return Response.ok(medic.get_comments()).build();
+	}
+	
+	/**
+	 * 
+	 * @return los nombres de los médicos conectados.
+	 */
+	@GET
+	@Path("/medics")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get_online_medics() {
+		return Response.ok(Finder.get_all_medic_names(medic_tree).toString()).build();
+	}
+	
+	/**
+	 * Crea un nuevo mensaje.
+	 * @param json_msg el menaje en json.
+	 * @return Mensaje de verificación.
+	 */
+	@POST
+	@Path("/chat")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create_message(String json_msg){
+		JSONObject msg = new JSONObject(json_msg);
+		Medic medic = Finder.find_medic_by_code(msg.getString("sender"));
+		Chat.create_message(msg.getString("msg"), medic.name());
+		return Response.ok("Your message's been posted").build();
+	}
+	
+	/**
+	 * @return la lista de mensajes.
+	 */
+	@GET
+	@Path("/chat")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get_chat_messages(){
+		return Response.ok(Chat.get_messages().toString()).build();
 	}
 	
 	/**
@@ -344,6 +382,7 @@ public class MedicResources {
 	private void process_medic(Medic medic){
 		medic_tree.insert(medic, IdentifiersGenerator.generate_new_key(3));
 	}
+	
 	
 	private void create_dummy_medics(){
 		
