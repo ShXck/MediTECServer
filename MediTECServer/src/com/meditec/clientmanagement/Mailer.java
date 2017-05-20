@@ -23,8 +23,8 @@ import javax.mail.internet.MimeMultipart;
 
 public class Mailer {
 	
-	private static final String SENDER = "m4ss97@gmail.com";
-	private static final String PASSWORD = "jijijijajaja516";
+	private static final String SENDER = "some@gmail.com";
+	private static final String PASSWORD = "******";
 	private static final String HOST = "smtp.gmail.com";
 	private static final String PORT = "587";
 	
@@ -35,8 +35,8 @@ public class Mailer {
 	 */
 	public static void send_qr(String receiver, String name){
 		
-		final String SUBJECT = "Desbloquea tu aplicación";
-		final String MESSAGE = "Bienvenido a MediTEC, por favor escanea el siguiente código QR para desbloquear la aplicación";
+		final String SUBJECT = "Desbloquea tu aplicaciÃ³n";
+		final String MESSAGE = "Bienvenido a MediTEC, por favor escanea el siguiente cÃ³digo QR para desbloquear la aplicaciÃ³n";
 		final String ATTACHMENT = "C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/unblocked.png";
 		
 		Properties properties = new Properties();
@@ -88,7 +88,7 @@ public class Mailer {
 	}
 	
 	/**
-	 * Envia una notificacion al médico sobre una nueva cita.
+	 * Envia una notificacion al mÃ©dico sobre una nueva cita.
 	 * @param receiver el correo destino.
 	 */
 	public static void send_appointment_email(String receiver){
