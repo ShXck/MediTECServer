@@ -60,7 +60,7 @@
 		<price>28300</price>
 	</test>
 	<test id="0016">	
-		<name>Tag</name>
+		<name>Tac</name>
 		<price>55000</price>
 	</test>
 	<test id="0017">	
@@ -96,7 +96,15 @@
 		<price>50000</price>
 	</test>
 	<test id="0025">	
-		<name>Resonancia Magnetica</name>
-		<price>40000</price>
+		<name>Quimioterapia</name>
+		<price>76000</price>
 	</test>
-</TestList>
+ 	<test id="0026">	
+		<name>Radioterapia</name>
+		<price>74000</price>
+	</test>
+ 	<test id="0027">	
+		<name>Resonancia Magnetica</name>
+		<price>85000</price>
+	</test>
+<test id="6173"><name>E1</name><price>3457</price></test></TestList>

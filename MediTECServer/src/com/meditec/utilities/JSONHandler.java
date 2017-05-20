@@ -34,9 +34,11 @@ public class JSONHandler {
 		JSONObject appointment_json = new JSONObject();
 		appointment_json.put("patient", appointment.patient());
 		appointment_json.put("day", appointment.calendar().get(Calendar.DAY_OF_MONTH));
-		appointment_json.put("month", appointment.calendar().get(Calendar.MONTH));
+		appointment_json.put("month", appointment.calendar().get(Calendar.MONTH) + 1);
 		appointment_json.put("year", appointment.calendar().get(Calendar.YEAR));
-		return appointment_json.toString();    //TODO: Agregar al json informacion como los sintomas registrados en la deteccion por voz y demas, usando un algoritmo de nevgacion en el arbol para recoger todos los sintomas registrados.
+		appointment_json.put("cases", appointment.get_cases_list());
+		appointment_json.put("symptoms", appointment.symptoms());
+		return appointment_json.toString(); 
 	}
 	
 	/**

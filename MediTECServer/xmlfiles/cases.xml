@@ -2,66 +2,71 @@
 	<case id="0001"> 
 		<name>Rosacea</name>
 		<medication>Metrogel,Tretraciclina</medication>
-		<tests>Biopsia</tests>
+		<tests>Biopsia,</tests>
 	</case>
 	<case id="0002"> 
 		<name>Meningitis</name>
-		<medication>Cortisona,Esteroides</medication>
-		<tests>Radiografia,Tomografia</tests>
+		<medication>Esteroides,Cortisona,</medication>
+		<tests>Radiografia,Tomografia,</tests>
 	</case>
 	<case id="0003"> 
-		<name>Ulceras</name>
-		<medication>Prilosec,Nexium</medication>
-		<tests>Endoscopia</tests>
-	</case>
-	<case id="0004"> 
 		<name>Cataratas</name>
 		<medication>Gotas</medication>
-		<tests>Oftalmologico</tests>
+		<tests>Oftalmologico,</tests>
 	</case>
-	<case id="0005"> 
-		<name>PiedrasRenales</name>
-		<medication>Antibioticos,Diureticos,Alopurinol</medication>			
-		<tests>Sangre,Orina,Radiografia,Tomografia,Ecografia</tests>
-	</case>
-	<case id="0006"> 
+	<case id="0004"> 
 		<name>Alzheimer</name>
 		<medication>Razadyne,Exelon,Aricept</medication>
 		<tests>Neurologico,PET</tests>
 	</case>	
-	<case id="0007"> 
+	<case id="0005"> 
 		<name>Esclerosis</name>
 		<medication>Modificadores</medication>
 		<tests>Conteo de celulas,MRI</tests>
 	</case>	
-	<case id="0008"> 
+	<case id="0006"> 
 		<name>Diabetes</name>
-		<medication>Insulina</medication>
+		<medication>Insulina,</medication>
 		<tests>Analisis de acetonas</tests>
 	</case>	
-	<case id="0009"> 
+	<case id="0007"> 
 		<name>Malaria</name>
-		<medication>Esertia,Enit</medication>
-		<tests>Sangre,Orina,Heces,Radiografia</tests>
+		<medication>Metrogel,Esertia</medication>
+		<tests>Sangre,Orina,Heces,Radiografia,</tests>
 	</case>	
-	<case id="0010"> 
+	<case id="0008"> 
 		<name>Gastritis</name>
 		<medication>Antiacidos,Famotidina</medication>
 		<tests>Sangre,Endoscopia,Coprologico</tests>
 	</case>	
-	<case id="0011"> 
+	<case id="0009"> 
 		<name>Asma</name>
 		<medication>Broncodilatadores,Antiinflamatorios</medication>
-		<tests>Radiografia,Sangre,Gastrometria</tests>
+		<tests>Sangre,Radiografia,Gastrometria,</tests>
 	</case>	
-	<case id="0012"> 
+	<case id="0010"> 
 		<name>Cistitis</name>
 		<medication>Pentosano,Hidroxizina,Amitriptilina</medication>
 		<tests>Cistoscopia</tests>
 	</case>
-	<case id="0013"> 
+	<case id="0011"> 
 		<name>Osteoporosis</name>
 		<medication>Bifosfatos,Calcio</medication>
 		<tests>Radiografia,Resonancia Magnetica</tests>
 	</case>	
-</CasesList>
+	<case id="0012"> 
+		<name>Cancer Pulmonar</name>
+		<medication>Daonil,Absorlent</medication>
+		<tests>Radioterapia,Quimioterapia</tests>
+	</case>	
+	<case id="0013"> 
+		<name>Cancer De Prostata</name>
+		<medication>Brionil,Cellcept,Aciclovir</medication>
+		<tests>Quimioterapia,Radioterapia,</tests>
+	</case>	
+	<case id="0014"> 
+		<name>Anemia</name>
+		<medication>Esteroides</medication>
+		<tests>Sangre</tests>
+	</case>	
+<case id="3714"><name>AH1N1</name><medication>Antibioticos,</medication><tests>Orina,</tests></case></CasesList>

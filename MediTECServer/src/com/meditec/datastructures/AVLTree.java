@@ -189,5 +189,9 @@ public class AVLTree<A extends Comparable<? super A>> {
     	return count;
     }
     
+    public void clear(){
+    	root = null;
+    }
+    
 
 }

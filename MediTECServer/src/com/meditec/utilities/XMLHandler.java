@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -25,6 +26,7 @@ import com.meditec.datastructures.BinaryTree;
 import com.meditec.datastructures.List;
 import com.meditec.datastructures.SplayTree;
 import com.meditec.medmanagement.ClinicCase;
+import com.meditec.medmanagement.Finder;
 import com.meditec.medmanagement.MedicTest;
 import com.meditec.medmanagement.Medication;
 
@@ -144,7 +146,6 @@ public class XMLHandler {
 			for(int temp = 0; temp < node_list.getLength(); temp++){
 				Node node = node_list.item(temp);
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
-
 					Element element = (Element) node;
 					cases_tree.insert(Integer.parseInt(element.getAttribute("id")),
 							new ClinicCase((element.getElementsByTagName("name").item(0).getTextContent()) ,   
@@ -262,6 +263,12 @@ public class XMLHandler {
 		}
 	}
 	
+	/**
+	 * Añade un nuevo exámen médico.
+	 * @param name el nombre.
+	 * @param cost el precio.
+	 * @param id la identificación.
+	 */
 	public static void write_test(String name, String cost, String id){
 		try {
 			
@@ -304,6 +311,13 @@ public class XMLHandler {
 		}
 	}
 	
+	/**
+	 * Añade un nuevo caso clínico
+	 * @param name el nombre del caso.
+	 * @param treatment la medicación.
+	 * @param tests los exámenes.
+	 * @param id la identificación.
+	 */
 	public static void write_case(String name, String treatment, String tests, String id){
 		try {
 			
@@ -351,4 +365,111 @@ public class XMLHandler {
 		}
 	}
 	
+	/**
+	 * Edita los atributos de un medicamento.
+	 * @param new_name el nuevo nombre.
+	 * @param new_price el nuevo precio.
+	 * @param m el medicamento a editar.
+	 */
+	public static void edit_medication_attributes(String new_name, String new_price, Medication m){
+		
+		try{
+			File medication_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/medication.xml");
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(medication_file);
+			
+			NodeList medication_list = document.getElementsByTagName("medication");
+			Element emp = null;
+			
+			for(int i = 0; i < medication_list.getLength(); i++){
+				emp = (Element)medication_list.item(i);
+				if (emp.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(m.name().toLowerCase())) {
+						Node name = emp.getElementsByTagName("name").item(0).getFirstChild();
+						name.setNodeValue(new_name);
+						Node price = emp.getElementsByTagName("price").item(0).getFirstChild();
+						price.setNodeValue(new_price);
+				}
+			}
+		
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(document);
+			StreamResult result = new StreamResult(medication_file);
+			transformer.transform(source, result);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Edita los atributos de un exámen.
+	 * @param new_name el nuevo nombre.
+	 * @param new_price el nuevo precio.
+	 * @param m el examen.
+	 */
+	public static void edit_tests_attributes(String new_name, String new_price, MedicTest m){
+		
+		try{
+			File tests_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/tests.xml");
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(tests_file);
+			
+			NodeList medication_list = document.getElementsByTagName("test");
+			Element emp = null;
+			
+			for(int i = 0; i < medication_list.getLength(); i++){
+				emp = (Element)medication_list.item(i);
+				if (emp.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(m.name().toLowerCase())) {
+						Node name = emp.getElementsByTagName("name").item(0).getFirstChild();
+						name.setNodeValue(new_name);
+						Node price = emp.getElementsByTagName("price").item(0).getFirstChild();
+						price.setNodeValue(new_price);
+				}
+			}
+		
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(document);
+			StreamResult result = new StreamResult(tests_file);
+			transformer.transform(source, result);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void edit_case_attributes(String new_treatment, String new_tests,  ClinicCase c){
+		
+		try{
+			File tests_file = new File("C:/Users/dell-pc/Desktop/MediTEC Server git/MediTECServer/xmlfiles/cases.xml");
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(tests_file);
+			
+			NodeList medication_list = document.getElementsByTagName("case");
+			Element emp = null;
+			
+			for(int i = 0; i < medication_list.getLength(); i++){
+				emp = (Element)medication_list.item(i);
+				if (emp.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(c.name().toLowerCase())) {
+						Node medication = emp.getElementsByTagName("medication").item(0).getFirstChild();
+						medication.setNodeValue(new_treatment);
+						Node tests = emp.getElementsByTagName("tests").item(0).getFirstChild();
+						tests.setNodeValue(new_tests);
+				}
+			}
+		
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(document);
+			StreamResult result = new StreamResult(tests_file);
+			transformer.transform(source, result);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 }
+	

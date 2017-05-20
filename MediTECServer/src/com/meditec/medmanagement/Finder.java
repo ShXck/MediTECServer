@@ -265,11 +265,13 @@ public class Finder {
 	private static String get_medication_list(AVLNode<Medication> node, String result){
 		if (node == null) {
 			return "";
+		}else {
+			result += get_medication_list(node.left(), result);
+			result += get_medication_list(node.right(), result);
+			result += node.data().name() + ",";
 		}
-		result += get_medication_list(node.left(), result);
-		result += get_medication_list(node.right(), result);
-		result += node.data().name() + ",";
 		return result;
+		
 	}
 	
 	/**
@@ -289,10 +291,11 @@ public class Finder {
 	private static String get_tests_list(SplayNode<MedicTest> node, String result){
 		if (node == null) {
 			return "";
+		}else {
+			result += get_tests_list(node.left, result);
+			result += get_tests_list(node.right,result);
+			result += node.element.name() + ",";
 		}
-		result += get_tests_list(node.left, result);
-		result += get_tests_list(node.right,result);
-		result += node.element.name() + ",";
 		return result;
 	}
 	

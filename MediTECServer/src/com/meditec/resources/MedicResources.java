@@ -109,7 +109,7 @@ public class MedicResources {
 		Medic medic = Finder.find_medic_by_code(id);
 		Appointment appointment = medic.agenda().get_appointment_info(patient);
 		JSONObject info = new JSONObject(updated_info);
-		medic.agenda().edit_appointment(info.getString("symptoms"), info.getString("medication"), info.getString("tests"), info.getString("cases"), appointment);
+		medic.agenda().edit_appointment(info.getString("medication"), info.getString("tests"), info.getString("cases"), appointment);
 		return Response.ok("Appointment edited!").build();
 	}
 	
@@ -140,12 +140,13 @@ public class MedicResources {
 	@POST
 	@Path("/cases/new_case")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response create_clinic_case(String case_info){
 		System.out.println(case_info);
 		ClinicCase new_case = JSONHandler.parse_new_clinic_case(case_info);
 		cases.insert(new_case.key(), new_case);
 		XMLHandler.write_case(new_case.name(), new_case.get_medication_list(), new_case.get_tests_list(), String.valueOf(new_case.key()));
-		return Response.ok("Clinic case succesfully created").build();
+		return Response.ok(Finder.get_all_cases(cases).toString()).build();
 	}
 	
 	/**
@@ -164,9 +165,10 @@ public class MedicResources {
 	 */
 	@DELETE
 	@Path("/cases/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete_clinic_case(@PathParam("name") String case_name) {
 		cases.remove(Finder.find_case(case_name,cases).key());
-		return Response.ok("Case removed successfully").build();
+		return Response.ok(Finder.get_all_cases(cases).toString()).build();
 	}
 	
 	/**
@@ -189,11 +191,13 @@ public class MedicResources {
 	@PUT
 	@Path("/cases/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response edit_case_details(String json_details, @PathParam("name") String case_name){
 		ClinicCase clinic_case = Finder.find_case(case_name, cases);
 		JSONObject details = new JSONObject(json_details);
+		XMLHandler.edit_case_attributes(details.getString("medication"), details.getString("tests"), clinic_case);
 		clinic_case.edit_case(details.getString("tests"), details.getString("medication"));
-		return Response.ok("Clinic Case Edited!").build();
+		return Response.ok(Finder.get_all_cases(cases).toString()).build();
 	}
 	
 	/**
@@ -214,11 +218,12 @@ public class MedicResources {
 	@POST
 	@Path("/tests/new_test")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response create_new_test(String new_test){
 		MedicTest medic_test = JSONHandler.parse_new_test(new_test);
 		tests.insert(medic_test, medic_test.id());
 		XMLHandler.write_test(medic_test.name(), String.valueOf(medic_test.cost()), String.valueOf(medic_test.id()));
-		return Response.ok("Test created succesfully").build();
+		return Response.ok(Finder.get_all_tests(tests).toString()).build();
 	}
 	
 	/**
@@ -228,9 +233,10 @@ public class MedicResources {
 	 */
 	@DELETE
 	@Path("/tests/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete_test(@PathParam("name") String name){
 		tests.remove(Finder.find_test(name, tests).id());
-		return Response.ok("Test " + name + " eliminated succesfully").build();
+		return Response.ok(Finder.get_all_tests(tests).toString()).build();
 		
 	}
 	
@@ -243,12 +249,14 @@ public class MedicResources {
 	@PUT
 	@Path("/tests/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response edit_test(String new_info, @PathParam("name") String name){
 		MedicTest m = Finder.find_test(name, tests);
 		JSONObject json_test = JSONHandler.parse(new_info);
+		XMLHandler.edit_tests_attributes(json_test.getString("name"), String.valueOf(json_test.getInt("cost")), m);
 		m.edit_name(json_test.getString("name"));
 		m.edit_price(json_test.getInt("cost"));
-		return Response.ok("Test updated!").build();
+		return Response.ok(Finder.get_all_tests(tests).toString()).build();
 	}
 	
 	/**
@@ -279,9 +287,10 @@ public class MedicResources {
 	 */
 	@DELETE
 	@Path("/medication/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete_medication(@PathParam("name") String name){
 		medication.remove(Finder.find_medication(name, medication));
-		return Response.ok("Medication removed!").build();
+		return Response.ok(Finder.get_all_medication(medication).toString()).build();
 	}
 	
 	/**
@@ -293,12 +302,14 @@ public class MedicResources {
 	@PUT
 	@Path("/medication/{name}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response edit_medication(String info, @PathParam("name") String name){
 		Medication m = Finder.find_medication(name, medication);
 		JSONObject json_test = JSONHandler.parse(info);
+		XMLHandler.edit_medication_attributes(json_test.getString("name"), json_test.getString("cost"), m);
 		m.edit_name(json_test.getString("name"));
 		m.edit_cost(json_test.getInt("cost"));
-		return Response.ok("Medication updated!").build();
+		return Response.ok(Finder.get_all_medication(medication).toString()).build();
 	}
 	
 	/**
@@ -320,11 +331,12 @@ public class MedicResources {
 	@POST
 	@Path("/medication/new_medication")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response create_medication(String new_medication){
 		Medication medication = JSONHandler.parse_new_medication(new_medication);
 		XMLHandler.write_medication(medication.name(), String.valueOf(medication.price()), String.valueOf(medication.id()));
 		this.medication.insert(medication);
-		return Response.ok(medication.name() + " created!").build();		
+		return Response.ok(Finder.get_all_medication(this.medication).toString()).build();		
 	}
 	
 	/**

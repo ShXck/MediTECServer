@@ -1,5 +1,7 @@
 package com.meditec.medmanagement;
 
+import org.json.JSONArray;
+
 import com.meditec.datastructures.AVLTree;
 import com.meditec.datastructures.SplayTree;
 import com.meditec.utilities.XMLHandler;
@@ -19,6 +21,7 @@ public class ClinicCase implements Comparable<ClinicCase>{
 		this.name = name;
 		set_medication(treatment);
 		set_tests(tests_case);	
+		
 	}
 
 	public ClinicCase(String name, String id, String treatment, String tests){
@@ -80,6 +83,7 @@ public class ClinicCase implements Comparable<ClinicCase>{
 	 * @param medication el tratamiento.
 	 */
 	public void edit_case(String tests, String medication){
+		price = 0;
 		edit_tests(tests);
 		edit_medication(medication);
 	}
@@ -90,15 +94,11 @@ public class ClinicCase implements Comparable<ClinicCase>{
 	 */
 	private void edit_tests(String new_tests){
 		String[] tests = new_tests.split(",");
-		
+		this.tests.clear();
 		for(int k = 0; k < tests.length; k++){
-			try{
-				MedicTest t = Finder.find_test(tests[k], this.tests);
-			}catch (NullPointerException e) {
-				MedicTest m = XMLHandler.find_test(tests[k].toLowerCase());
-				this.tests.insert(m, m.id());
-				price += m.cost();
-			}
+			MedicTest m = XMLHandler.find_test(tests[k].toLowerCase());
+			this.tests.insert(m, m.id());
+			price += m.cost();
 		}
 	}
 	
@@ -108,15 +108,11 @@ public class ClinicCase implements Comparable<ClinicCase>{
 	 */
 	private void edit_medication(String new_medication){
 		String[] medication = new_medication.split(",");
-		
+		this.medication.clear();
 		for(int k = 0; k < medication.length; k++){
-			try{
-				Medication m = Finder.find_medication(medication[k], this.medication);
-			}catch (NullPointerException e) {
-				Medication t = XMLHandler.find_medication(medication[k].toLowerCase());
-				this.medication.insert(t);
-				price += t.price();
-			}
+			Medication t = XMLHandler.find_medication(medication[k].toLowerCase());
+			this.medication.insert(t);
+			price += t.price();
 		}
 	}
 	

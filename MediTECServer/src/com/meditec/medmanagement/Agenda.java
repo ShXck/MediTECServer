@@ -51,8 +51,7 @@ public class Agenda {
 	 * @param clinic_cases los casos clinicos.
 	 * @param appointment la cita en cuestion.
 	 */
-	public void edit_appointment(String symptoms, String medication, String tests, String clinic_cases, Appointment appointment){
-		edit_symptoms(symptoms, appointment);
+	public void edit_appointment(String medication, String tests, String clinic_cases, Appointment appointment){
 		edit_cases(clinic_cases, appointment);
 		edit_tests(tests, appointment);	
 		edit_medication(medication, appointment);
@@ -69,20 +68,6 @@ public class Agenda {
 				if (!Finder.contains_medication(result[k].toLowerCase(), appointment.related_clinic_cases())) {
 					appointment.related_clinic_cases().root().data().medication().insert(XMLHandler.find_medication(result[k]));
 				}
-			}
-		}
-	}
-	
-	/**
-	 * Edita los sintomas.
-	 * @param symptoms
-	 * @param appointment
-	 */
-	private void edit_symptoms(String symptoms, Appointment appointment){
-		String[] result = symptoms.split(",");
-		if (!result[0].equals("none")) {
-			for(int i = 0; i < result.length; i++){
-				appointment.symptoms_list().add_last(result[i]);
 			}
 		}
 	}
@@ -120,7 +105,5 @@ public class Agenda {
 				appointment.related_clinic_cases().insert(clinicCase.key(), clinicCase);
 			}
 		}
-
 	}
-	
 }

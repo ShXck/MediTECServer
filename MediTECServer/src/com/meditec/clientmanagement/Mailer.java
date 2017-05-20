@@ -23,8 +23,8 @@ import javax.mail.internet.MimeMultipart;
 
 public class Mailer {
 	
-	private static final String SENDER = "m4ss97@gmail.com";
-	private static final String PASSWORD = "jijijijajaja516";
+	private static final String SENDER = "some@gmail.com";
+	private static final String PASSWORD = "******";
 	private static final String HOST = "smtp.gmail.com";
 	private static final String PORT = "587";
 	
