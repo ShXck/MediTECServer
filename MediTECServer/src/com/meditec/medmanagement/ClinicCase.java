@@ -155,5 +155,4 @@ public class ClinicCase implements Comparable<ClinicCase>{
 			return 0;
 		}
 	}
-
 }

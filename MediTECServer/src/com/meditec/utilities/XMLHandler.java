@@ -459,7 +459,6 @@ public class XMLHandler {
 						tests.setNodeValue(new_tests);
 				}
 			}
-		
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(document);
@@ -469,7 +468,5 @@ public class XMLHandler {
 			e.printStackTrace();
 		}
 	}
-
-
 }
 	

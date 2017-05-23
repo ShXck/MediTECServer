@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><CasesList>
 	<case id="0001"> 
 		<name>Rosacea</name>
-		<medication>Metrogel,Tretraciclina</medication>
+		<medication>Tretraciclina,Metrogel</medication>
 		<tests>Biopsia,</tests>
 	</case>
 	<case id="0002"> 

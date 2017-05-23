@@ -117,7 +117,7 @@
 	</medication>
 	<medication id="30">
 		<name>Esteroides</name>
-		<price>57450</price>
+		<price>76000</price>
 	</medication>
 	<medication id="31">
 		<name>Nexium</name>
@@ -199,4 +199,4 @@
 		<name>Bifosfatos</name>
 		<price>15000</price>
 	</medication>
-<medication id="6368"><name>A</name><price>45000.0</price></medication></medicationList>
+</medicationList>

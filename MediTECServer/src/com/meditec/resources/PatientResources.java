@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -46,6 +47,7 @@ public class PatientResources {
 		}
 		return Response.ok("{status:unblocked}").build();
 	}
+	
 	
 	/**
 	 * Reserva una cita.
@@ -162,6 +164,7 @@ public class PatientResources {
 	private void process_client(Patient p){
 		patients_tree.insert(p);
 		Mailer.send_qr(p.email(), p.name());
+		p.unblock();
 	}
 }
 

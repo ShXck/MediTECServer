@@ -10,17 +10,17 @@ public class Patient implements Comparable<Patient>{
 	private String name;
 	private String email;
 	private int patient_code;
-	//private ClinicCase clinic_case;
 	private Appointment current_appointment;
 	private Appointment last_appointment;
+	private boolean is_blocked;
 	
 	public Patient(String name, String email){
 		this.name = name;
 		this.email = email;
-		//this.clinic_case = null;
 		this.patient_code = IdentifiersGenerator.generate_new_key(4);
 		this.current_appointment = null;
 		this.last_appointment = null;
+		this.is_blocked = true;
 	}
 	
 	/**
@@ -73,6 +73,15 @@ public class Patient implements Comparable<Patient>{
 	public void set_last_appointment(Appointment appointment) {
 		this.last_appointment = appointment;
 	}
+	
+	public void unblock(){
+		this.is_blocked = false;
+	}
+	
+	public boolean is_blocked(){
+		return this.is_blocked;
+	}
+	
 	
 	@Override
 	public int compareTo(Patient o) {

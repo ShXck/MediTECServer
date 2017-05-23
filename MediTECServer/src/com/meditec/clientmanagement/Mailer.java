@@ -2,13 +2,7 @@ package com.meditec.clientmanagement;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Date;
 import java.util.Properties;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -23,8 +17,8 @@ import javax.mail.internet.MimeMultipart;
 
 public class Mailer {
 	
-	private static final String SENDER = "some@gmail.com";
-	private static final String PASSWORD = "******";
+	private static final String SENDER = "m4ss97@gmail.com";
+	private static final String PASSWORD = "jijijijajaja516";
 	private static final String HOST = "smtp.gmail.com";
 	private static final String PORT = "587";
 	

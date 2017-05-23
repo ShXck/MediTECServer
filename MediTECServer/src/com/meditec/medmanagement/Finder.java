@@ -568,6 +568,4 @@ public class Finder {
 		result += node.data().get_tests_list();
 		return result;
 	}
-	
-	
 }

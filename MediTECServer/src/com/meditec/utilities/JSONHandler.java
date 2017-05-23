@@ -65,7 +65,7 @@ public class JSONHandler {
 			json_appointment.put("finished", false);
 		}else{
 			json_appointment.put("code", appointment.number());
-			json_appointment.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
+			json_appointment.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH) + 1) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
 			json_appointment.put("symptoms", appointment.symptoms());
 			try {
 				json_appointment.put("medication", appointment.get_appointment_medication());
@@ -197,7 +197,7 @@ public class JSONHandler {
 		JSONObject details = new JSONObject();
 		
 		details.put("code", appointment.number());
-		details.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH)) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
+		details.put("date", String.valueOf(appointment.calendar().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(appointment.calendar().get(Calendar.MONTH) + 1) +"/" + String.valueOf(appointment.calendar().get(Calendar.YEAR)));
 		details.put("symptoms", appointment.symptoms());
 		details.put("medication", appointment.get_appointment_medication());
 		details.put("tests", appointment.get_appointment_tests());
@@ -248,4 +248,5 @@ public class JSONHandler {
 			list.add_last((String) array.get(i));
 		}
 	}
+	
 }
