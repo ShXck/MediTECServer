@@ -377,6 +377,7 @@ public class MedicResources {
 		return Response.ok("Your message's been posted").build();
 	}
 	
+	
 	/**
 	 * @return la lista de mensajes.
 	 */
