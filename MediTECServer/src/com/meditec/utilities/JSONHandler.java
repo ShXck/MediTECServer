@@ -6,11 +6,14 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import com.meditec.datastructures.List;
 import com.meditec.datastructures.Node;
+import com.meditec.datastructures.TreeNode;
 import com.meditec.medmanagement.Appointment;
 import com.meditec.medmanagement.ClinicCase;
+import com.meditec.medmanagement.Finder;
 import com.meditec.medmanagement.Medic;
 import com.meditec.medmanagement.MedicTest;
 import com.meditec.medmanagement.Medication;
+import com.meditec.resources.MedicResources;
 
 public class JSONHandler {
 	
@@ -133,6 +136,13 @@ public class JSONHandler {
 		clinic_case_details.put("medication", clinic_case.get_medication_list());
 		clinic_case_details.put("tests", clinic_case.get_tests_list());
 		clinic_case_details.put("cost", clinic_case.price());
+		
+		TreeNode<ClinicCase> c = Finder.find_case_node(clinic_case.name(), MedicResources.cases);
+		
+		clinic_case_details.put("height", c.height());
+		clinic_case_details.put("path", c.path());
+		clinic_case_details.put("depth", c.depth());
+		
 		return  clinic_case_details.toString();
 	}
 	
@@ -203,7 +213,6 @@ public class JSONHandler {
 		details.put("tests", appointment.get_appointment_tests());
 		details.put("cases", appointment.get_cases_list());
 		details.put("price", appointment.total_cost());
-		
 		return details;
 	}
 	
@@ -215,21 +224,21 @@ public class JSONHandler {
 	public static String get_json_comments(List<String> comments){
 		
 		JSONObject json_comments = new JSONObject();
+		JSONArray array = new JSONArray();
 		
 		if (!comments.is_empty()) {
 			
 			Node<String> current = comments.peek();
 			int count = 1;
 			
-			while(current.getNext() != null){
-				json_comments.put(String.valueOf(count), current.getData());
-				count++;
-				current = current.getNext();
+			while(current != null){
+				array.put(current.data());
+				current = current.next();
 			}
-			json_comments.put(String.valueOf(count), current.getData());
-			json_comments.put("count", count);
+			json_comments.put("comments", array);
 			return json_comments.toString();
 		}else {
+			json_comments.put("comments", array);
 			return json_comments.toString();
 		}
 	}

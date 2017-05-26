@@ -52,7 +52,7 @@ public class XMLHandler {
 				Node node = node_list.item(temp);
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					if (element.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(name)) {
+					if (element.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(name.toLowerCase())) {
 						return new Medication((element.getElementsByTagName("name").item(0).getTextContent()) ,  element.getElementsByTagName("price").item(0).getTextContent(),  element.getAttribute("id"));
 					}
 				}
@@ -83,7 +83,7 @@ public class XMLHandler {
 				Node node = node_list.item(temp);
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					if (element.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(name)) {
+					if (element.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(name.toLowerCase())) {
 						return new MedicTest((element.getElementsByTagName("name").item(0).getTextContent()) ,  element.getElementsByTagName("price").item(0).getTextContent(),  element.getAttribute("id"));
 					}
 				}
@@ -114,7 +114,7 @@ public class XMLHandler {
 				Node node = node_list.item(temp);
 				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) node;
-					if (element.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(name)) {
+					if (element.getElementsByTagName("name").item(0).getTextContent().toLowerCase().equals(name.toLowerCase())) {
 						return new ClinicCase((element.getElementsByTagName("name").item(0).getTextContent()) ,   
 								element.getAttribute("id"),
 								element.getElementsByTagName("medication").item(0).getTextContent(),
@@ -468,6 +468,7 @@ public class XMLHandler {
 			e.printStackTrace();
 		}
 	}
+	
 	
 }
 	

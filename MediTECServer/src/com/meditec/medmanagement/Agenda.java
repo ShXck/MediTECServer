@@ -61,7 +61,6 @@ public class Agenda {
 	 * Edita el tratamiento.
 	 */
 	private void edit_medication(String medication, Appointment appointment){
-
 		String[] result = medication.split(",");
 		if(!result[0].equals("none")){
 			for(int k = 0; k < result.length; k++){

@@ -28,8 +28,8 @@ public class Chat {
 		Node<String> current = messages.peek();
 		
 		while (current != null) {
-			array.put(current.getData());
-			current = current.getNext();
+			array.put(current.data());
+			current = current.next();
 		}
 		json_messages.put("messages", array);
 		return json_messages;

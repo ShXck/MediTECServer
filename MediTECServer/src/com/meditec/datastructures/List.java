@@ -49,8 +49,8 @@ public class List<T> {
         }else{
             Node current = this.head;
 
-            while(current.getNext() != null){
-                current = current.getNext();
+            while(current.next() != null){
+                current = current.next();
             }
             current.setNext(newNode);
         }
@@ -61,7 +61,7 @@ public class List<T> {
      * remueve la cabeza
      */
     public void remove_head(){
-        set_head(peek().getNext());
+        set_head(peek().next());
         size--;
     }
 
@@ -79,37 +79,57 @@ public class List<T> {
     public void print_list() {
         Node current = this.head;
         while (current != null) {
-            System.out.print(current.getData() + " ");
-            current = current.getNext();
+            System.out.print(current.data() + " ");
+            current = current.next();
         }
     }
-
+    
+    /**
+     * Determina si existe el contenido dentro de la lista.
+     * @param element el elemento por encontrar.
+     * @return si se encuentra en la lista.
+     */
     public boolean contains(T element){
 
         Node current = this.head;
 
-        while (current.getNext() != null){
-            if(current.getData() == element){
+        while (current.next() != null){
+            if(current.data() == element){
                 return true;
             }else{
-                current = current.getNext();
+                current = current.next();
             }
         }
         return false;
     }
-
+    
+    /**
+     * @return la cabeza de la lista.
+     */
     public Node peek() {
         return head;
     }
-
-    public int get_size() {
+    
+    /**
+     * @return el tamaño de la lista.
+     */
+    public int size() {
         return size;
     }
-
+    
+    /**
+     * Asigna un valor a la cabeza de l alista.
+     * @param head la nueva cabeza.
+     */
     public void set_head(Node head) {
         this.head = head;
     }
-
+    
+    /**
+     * Obtiene el nodo en la posición dada.
+     * @param posicion la posición.
+     * @return el nodo.
+     */
     public Node get(int posicion){
 
         Node current = head;
@@ -117,22 +137,26 @@ public class List<T> {
         int i = 0;
 
         while (i < posicion){
-            current = current.getNext();
+            current = current.next();
             i++;
         }
 
         return current;
     }
-
+    
+    /**
+     * Elimina un nodo de la lista.
+     * @param data la información por eliminar.
+     */
     public void remove(T data){
         Node current = head;
 
-        while (current.getData() != null){
-            if (current.getData() == data || current.getData().equals(data)){
-                current.setNext(current.getNext().getNext());
+        while (current.data() != null){
+            if (current.data() == data || current.data().equals(data)){
+                current.setNext(current.next().next());
                 return;
             }else {
-                current = current.getNext();
+                current = current.next();
             }
         }
     }

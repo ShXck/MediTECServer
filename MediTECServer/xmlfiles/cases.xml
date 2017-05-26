@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><CasesList>
 	<case id="0001"> 
 		<name>Rosacea</name>
-		<medication>Tretraciclina,Metrogel</medication>
+		<medication>Metrogel,Tretraciclina</medication>
 		<tests>Biopsia,</tests>
 	</case>
 	<case id="0002"> 
@@ -56,7 +56,7 @@
 	</case>	
 	<case id="0012"> 
 		<name>Cancer Pulmonar</name>
-		<medication>Daonil,Absorlent</medication>
+		<medication>Absorlent,Daonil,</medication>
 		<tests>Radioterapia,Quimioterapia</tests>
 	</case>	
 	<case id="0013"> 
@@ -69,4 +69,9 @@
 		<medication>Esteroides</medication>
 		<tests>Sangre</tests>
 	</case>	
-<case id="3714"><name>AH1N1</name><medication>Antibioticos,</medication><tests>Orina,</tests></case></CasesList>
+	<case id="3714">
+		<name>AH1N1</name>
+		<medication>Antibioticos</medication>
+		<tests>Orina,</tests>
+	</case>
+</CasesList>

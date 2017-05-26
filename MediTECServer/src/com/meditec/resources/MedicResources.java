@@ -58,7 +58,6 @@ public class MedicResources {
 				XMLHandler.add_cases_to_tree(cases);
 				XMLHandler.add_tests_to_tree(tests);
 				XMLHandler.add_medication_to_tree(medication);
-				//create_dummy_medics();
 				flag = true;
 			}
 			return Response.ok(JSONHandler.get_identifier(new_medic.code())).build();
@@ -142,7 +141,6 @@ public class MedicResources {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create_clinic_case(String case_info){
-		System.out.println(case_info);
 		ClinicCase new_case = JSONHandler.parse_new_clinic_case(case_info);
 		cases.insert(new_case.key(), new_case);
 		XMLHandler.write_case(new_case.name(), new_case.get_medication_list(), new_case.get_tests_list(), String.valueOf(new_case.key()));
@@ -395,22 +393,5 @@ public class MedicResources {
 	private void process_medic(Medic medic){
 		medic_tree.insert(medic, IdentifiersGenerator.generate_new_key(3));
 	}
-	
-	
-	private void create_dummy_medics(){
-		
-		Medic a = new Medic("Alonso", "some@email.com");
-		Medic b = new Medic("Bryan", "some@email.com");
-		Medic c = new Medic("Jennifer", "some@email.com");
-		Medic d = new Medic("Fabian", "some@email.com");
-		Medic e = new Medic("Kate", "some@email.com");
-		
-		medic_tree.insert(a, IdentifiersGenerator.generate_new_key(3));
-		medic_tree.insert(b, IdentifiersGenerator.generate_new_key(3));
-		medic_tree.insert(c, IdentifiersGenerator.generate_new_key(3));
-		medic_tree.insert(d, IdentifiersGenerator.generate_new_key(3));
-		medic_tree.insert(e, IdentifiersGenerator.generate_new_key(3));
-	}
-	
 
 }

@@ -222,7 +222,7 @@ public class Finder {
 	 * @return el caso.
 	 */
 	public static ClinicCase find_case(String name, BinaryTree<ClinicCase> tree){
-		return find_case(name.toLowerCase(), tree.root()).data();
+		return find_case(name.toLowerCase(), tree.root(),"").data();
 	}
 	
 	/**
@@ -231,14 +231,48 @@ public class Finder {
 	 * @param node el nodo inicial.
 	 * @return el nodo que contiene el caso.
 	 */
-	private static TreeNode<ClinicCase> find_case(String name, TreeNode<ClinicCase> node){
+	private static TreeNode<ClinicCase> find_case(String name, TreeNode<ClinicCase> node, String path){
 		if (node != null) {
 			if (node.data().name().toLowerCase().equals(name.toLowerCase())) {
+				node.set_path(path);
 				return node;
 			}else {
-				TreeNode<ClinicCase> tmp = find_case(name, node.get_left());
+				TreeNode<ClinicCase> tmp = find_case(name, node.left(), path + node.data().name()+",");
 				if (tmp == null) {
-					tmp = find_case(name, node.get_right());
+					tmp = find_case(name, node.right(), path + node.data().name()+",");
+				}
+				return tmp;
+			}
+		}else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Encuentra un caso por nombre.
+	 * @param name el nombre del caso.
+	 * @param tree el arbol de casos.
+	 * @return el caso.
+	 */
+	public static TreeNode<ClinicCase> find_case_node(String name, BinaryTree<ClinicCase> tree){
+		return find_case_node(name.toLowerCase(), tree.root(),"");
+	}
+	
+	/**
+	 * metodo auxiliar para encontrar un caso.
+	 * @param name el nombre del caso.
+	 * @param node el nodo inicial.
+	 * @return el nodo que contiene el caso.
+	 */
+	private static TreeNode<ClinicCase> find_case_node(String name, TreeNode<ClinicCase> node, String path){
+		if (node != null) {
+			if (node.data().name().toLowerCase().equals(name.toLowerCase())) {
+				node.set_path(path);
+				return node;
+			}else {
+				TreeNode<ClinicCase> tmp = find_case(name, node.left(), path + node.data().name()+",");
+				if (tmp == null) {
+					tmp = find_case(name, node.right(), path + node.data().name()+",");
 				}
 				return tmp;
 			}
@@ -317,9 +351,9 @@ public class Finder {
 	 */
 	private static JSONArray get_all_cases(TreeNode<ClinicCase> node, JSONArray json){
 		if (node != null) {
-			get_all_cases(node.get_left(), json);
+			get_all_cases(node.left(), json);
 			json.put(node.data().name());
-			get_all_cases(node.get_right(), json);
+			get_all_cases(node.right(), json);
 		}
 		return json;
 	}
@@ -456,8 +490,8 @@ public class Finder {
 		if (node == null) {
 			return "";
 		}
-		result += get_cases_list(node.get_left(), result);
-		result += get_cases_list(node.get_right(),result);
+		result += get_cases_list(node.left(), result);
+		result += get_cases_list(node.right(),result);
 		result += node.data().name() + ",";
 		return result;
 	}
@@ -481,8 +515,8 @@ public class Finder {
 		if (node == null) {
 			return 0;
 		}
-		total += find_appointment_cost(node.get_left(), total);
-		total += find_appointment_cost(node.get_right(),total);
+		total += find_appointment_cost(node.left(), total);
+		total += find_appointment_cost(node.right(),total);
 		total += node.data().price();
 		return total;
 	}
@@ -510,11 +544,11 @@ public class Finder {
 				Medication m = find_medication(name, node.data().medication());
 				return true;
 			}catch (NullPointerException e) {
-				if (node.get_left() != null) {
-					return contains_medication(name, node.get_left());
+				if (node.left() != null) {
+					return contains_medication(name, node.left());
 				}
-				if (node.get_right() != null) {
-					return contains_medication(name, node.get_right());
+				if (node.right() != null) {
+					return contains_medication(name, node.right());
 				}
 			}
 		}
@@ -539,8 +573,8 @@ public class Finder {
 		if (node == null) {
 			return "";
 		}
-		result += get_appointment_medication(node.get_left(), result);
-		result += get_appointment_medication(node.get_right(),result);
+		result += get_appointment_medication(node.left(), result);
+		result += get_appointment_medication(node.right(),result);
 		result += node.data().get_medication_list();
 		return result;
 	}
@@ -563,8 +597,8 @@ public class Finder {
 		if (node == null) {
 			return "";
 		}
-		result += get_appointment_tests(node.get_left(), result);
-		result += get_appointment_tests(node.get_right(),result);
+		result += get_appointment_tests(node.left(), result);
+		result += get_appointment_tests(node.right(),result);
 		result += node.data().get_tests_list();
 		return result;
 	}

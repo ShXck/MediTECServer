@@ -9,12 +9,12 @@ public class SplayNode<S> {
     public int key;
     public S element;
 
-    /** Constructor **/
+    
     public SplayNode(S data, int key)
     {
         this(data, key, null, null, null);
     }
-    /** Constructor **/
+  
     public SplayNode(S element,int key, SplayNode left, SplayNode right, SplayNode parent)
     {
         this.left = left;

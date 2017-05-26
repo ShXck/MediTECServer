@@ -55,8 +55,8 @@ public class Appointment implements Comparable<Appointment> {
 		
 		String result = "";
 		
-		for(int i = 0; i < symptoms.get_size(); i++){
-			result += symptoms.get(i).getData() +  ",";
+		for(int i = 0; i < symptoms.size(); i++){
+			result += symptoms.get(i).data() +  ",";
 		}
 		return result;
 	}

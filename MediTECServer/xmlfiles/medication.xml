@@ -97,7 +97,7 @@
 	</medication>
 	<medication id="25">
 		<name>Elocom</name>
-		<price>8900</price>
+		<price>8950</price>
 	</medication>
 	<medication id="26">
 		<name>Enit</name>
@@ -181,7 +181,7 @@
 	</medication>
 	<medication id="46">
 		<name>Antiinflamatorios</name>
-		<price>750</price>
+		<price>7500</price>
 	</medication>
 	<medication id="47">
 		<name>Pentosano</name>
@@ -189,7 +189,7 @@
 	</medication>
 	<medication id="48">
 		<name>Hidroxizina</name>
-		<price>47600</price>
+		<price>47000</price>
 	</medication>
 	<medication id="49">
 		<name>Amitriptilina</name>
@@ -197,6 +197,6 @@
 	</medication>
 	<medication id="50">
 		<name>Bifosfatos</name>
-		<price>15000</price>
+		<price>14000</price>
 	</medication>
 </medicationList>

@@ -9,10 +9,20 @@ public class AVLTree<A extends Comparable<? super A>> {
 		root = null;
 	}
 	
+	/**
+	 * Inserta un nuevo valor al árbol.
+	 * @param data el contenido.
+	 */
 	public void insert(A data){
 		root = insert(data, root);
 	}
 	
+	/**
+	 * método auxiliar para insertar un nuevo nodo.
+	 * @param data el contenido del nodo.
+	 * @param node el nodo inicial.
+	 * @return el nuevo nodo.
+	 */
 	private AVLNode<A> insert(A data, AVLNode<A> node) {
 		if (node == null) {
 			return new AVLNode(data);
@@ -30,11 +40,20 @@ public class AVLTree<A extends Comparable<? super A>> {
 		count++;
 		return balance(node);
 	}
-	
+	/**
+	 * Elimina un nodo del árbol.
+	 * @param data lo que se quiere eliminar.
+	 */
 	public void remove(A data){
 		root = remove(data, root);
 	}
 	
+	/**
+	 * Método auxiliar para eliminar un nodo.
+	 * @param data lo que se quiere eliminar.
+	 * @param node el nodo inicial.
+	 * @return el nodo eliminado.
+	 */
 	private AVLNode<A> remove(A data, AVLNode<A> node){
 		
 		if (root == null) {
@@ -61,6 +80,11 @@ public class AVLTree<A extends Comparable<? super A>> {
 		return balance(node);
 	}
 	
+	/**
+	 * Balancea el árbol.
+	 * @param node el nodo que se quiere balancear.
+	 * @return el nodo.
+	 */
 	private AVLNode<A> balance(AVLNode<A> node){
 		
 		final int allow_imbalance = 1;
@@ -87,6 +111,11 @@ public class AVLTree<A extends Comparable<? super A>> {
 		return node;	
 	}
 	
+	/**
+	 * Rotación izq-izq
+	 * @param k2 el nodo que se debe rotar.
+	 * @return el nodo una vez hecha la rotación.
+	 */
     private AVLNode<A> rotate_with_left_child( AVLNode<A> k2 )
     {
         AVLNode<A> k1 = k2.left();
@@ -96,7 +125,12 @@ public class AVLTree<A extends Comparable<? super A>> {
         k1.set_height(Math.max( height( k1.left() ), k2.height()) + 1); 
         return k1;
     }
-
+    
+    /**
+     * Rotación der-der.
+     * @param k1 el nodo que se debe rotar.
+     * @return el nodo, una vez hecha la rotación.
+     */
     private AVLNode<A> rotate_with_right_child( AVLNode<A> k1 )
     {
         AVLNode<A> k2 = k1.right();
@@ -106,27 +140,51 @@ public class AVLTree<A extends Comparable<? super A>> {
         k2.set_height(Math.max( height( k2.right() ), k1.height() ) + 1);
         return k2;
     }
-
+    
+    /**
+     * Rotación doble izquierda.
+     * @param k3 el nodo que se debe rotar.
+     * @return el nodo una vez hecha la rotación.
+     */
     private AVLNode<A> double_rotate_with_left_child( AVLNode<A> k3 )
     {
         k3.set_left(rotate_with_right_child(k3.left()));
         return rotate_with_left_child( k3 );
     }
-
+    
+    /**
+     * Rotación doble derecha
+     * @param k1 el nodo que se debe rotar.
+     * @return el nodo una vez hecha la rotación.
+     */
     private AVLNode<A> double_rotate_with_right_child( AVLNode<A> k1 )
     {
         k1.set_right(rotate_with_left_child(k1.right()));
         return rotate_with_right_child(k1);
     }
 	
+    /**
+     * Método para saber la altura de un nodo.
+     * @param node el nodo que se quiere saber la altura;
+     * @return la altura del nodo.
+     */
 	private int height(AVLNode<A> node) {
 		return node == null? -1:node.height();
 	}
 	
+	/**
+	 * 
+	 * @return si el árbol está vacío.
+	 */
 	public boolean is_empty(){
 		return root == null;
 	}
 	
+	/**
+	 * Encuentra el nodo más a la izquierda.
+	 * @param node el nodo inicial.
+	 * @return el nodo menor.
+	 */
 	private AVLNode<A> find_min(AVLNode<A> node){
 		if (node == null) {
 			return node;
@@ -138,6 +196,11 @@ public class AVLTree<A extends Comparable<? super A>> {
 		return node;
 	}
 	
+	/**
+	 * Encuentra el nodo más a la derecha.
+	 * @param node el nodo inicial.
+	 * @return el nodo mayor.
+	 */
 	private AVLNode<A> find_max(AVLNode<A> node){
 		if (node == null) {
 			return node;
@@ -150,6 +213,10 @@ public class AVLTree<A extends Comparable<? super A>> {
 		
 	}
 	
+	/**
+	 * Imprime todos los valores dentro del árbol.
+	 * @param node el nodo inicial.
+	 */
 	public void print(AVLNode<A> node){
 		if(node != null){
 			print(node.left());
@@ -158,10 +225,21 @@ public class AVLTree<A extends Comparable<? super A>> {
 		}
 	}
 	
+	/**
+	 * Encuentra un nodo.
+	 * @param data la información que queremos encontrar.
+	 * @return si el contenido está en el árbol.
+	 */
 	public boolean find(A data){
         return find(data, this.root);
     }
-
+	
+	/**
+	 * Método auxiliar para encontrar un valor en el árbol.
+	 * @param data la información que se quiere encontrar.
+	 * @param node el nodo inicial.
+	 * @return si el contenido está en el árbol.
+	 */
     private boolean find(A data, AVLNode<A> node) {
 
         boolean found = false;
@@ -181,14 +259,24 @@ public class AVLTree<A extends Comparable<? super A>> {
         return found;
     }
     
+    /**
+     * 
+     * @return La raíz del árbol.
+     */
     public AVLNode<A> root() {
 		return root;
 	}
     
+    /**
+     * @return la cantidad de nodos en el árbol.
+     */
     public int count(){
     	return count;
     }
     
+    /**
+     * Elimina todos los valores del árbol.
+     */
     public void clear(){
     	root = null;
     }

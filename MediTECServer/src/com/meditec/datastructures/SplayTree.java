@@ -7,25 +7,32 @@ public class SplayTree<S extends Comparable<S>> {
     private SplayNode root;
     private int count = 0;
 
-    /** Constructor **/
     public SplayTree()
     {
         root = null;
     }
 
-    /** Function to check if tree is empty **/
+    /**
+     * @return si el árbol está vacío o no.
+     */
     public boolean isEmpty()
     {
         return root == null;
     }
 
-    /** clear tree **/
+    /**
+     * Elimina todo el contenido del árbol.
+     */
     public void clear()
     {
         root = null;
     }
 
-    /** function to insert element */
+    /**
+     * Inserta un nuevo elemento en el árbol.
+     * @param data el contenido.
+     * @param key el id del nodo.
+     */
     public void insert(S data, int key)
     {
         SplayNode node = root;
@@ -47,10 +54,15 @@ public class SplayTree<S extends Comparable<S>> {
             secondary_node.right = node;
         else
             secondary_node.left = node;
-        Splay(node);
+        splay(node);
         count++;
     }
-    /** rotate **/
+
+    /**
+     * Rotación izq-izq
+     * @param c el nodo hijo.
+     * @param p el nodo padre.
+     */
     public void makeLeftChildParent(SplayNode c, SplayNode p)
     {
         if ((c == null) || (p == null) || (p.left != c) || (c.parent != p))
@@ -72,7 +84,11 @@ public class SplayTree<S extends Comparable<S>> {
         c.right = p;
     }
 
-    /** rotate **/
+    /**
+     * Rotación der-der
+     * @param c el nodo hijo.
+     * @param p el nodo padre.
+     */
     public void makeRightChildParent(SplayNode c, SplayNode p)
     {
         if ((c == null) || (p == null) || (p.right != c) || (c.parent != p))
@@ -92,8 +108,11 @@ public class SplayTree<S extends Comparable<S>> {
         c.left = p;
     }
 
-    /** function splay **/
-    private void Splay(SplayNode x)
+    /**
+     * Función que se encarga de balancear el árbol.
+     * @param x el nodo que se quiere balancear.
+     */
+    private void splay(SplayNode x)
     {
         while (x.parent != null)
         {
@@ -139,20 +158,26 @@ public class SplayTree<S extends Comparable<S>> {
         root = x;
     }
 
-    /** function to remove element **/
+    /**
+     * Elimina un nodo del árbol
+     * @param key el id del nodo.
+     */
     public void remove(int key)
     {
         SplayNode node = find(key);
         remove(node);
     }
 
-    /** function to remove node **/
+    /**
+     * Método auxiliar para eliminar un nodo.
+     * @param node el nodo inicial.
+     */
     private void remove(SplayNode node)
     {
         if (node == null)
             return;
 
-        Splay(node);
+        splay(node);
         if( (node.left != null) && (node.right !=null))
         {
             SplayNode min = node.left;
@@ -185,18 +210,29 @@ public class SplayTree<S extends Comparable<S>> {
         count--;
     }
 
-    /** Functions to count number of nodes **/
+    /**
+     * @return el número de nodos del árbol.
+     */
     public int countNodes()
     {
         return count;
     }
 
-    /** Functions to search for an element **/
+    /**
+     * Busca un elemento en el árbol.
+     * @param key el id del nodo.
+     * @return si el contenido está en el árbol.
+     */
     public boolean search(int key)
     {
         return find(key) != null;
     }
-
+    
+    /**
+     * Método auxiliar para encontrar un nodo en el árbol.
+     * @param key el id del nodo.
+     * @return el nodo con el contenido si es que existe.
+     */
     private SplayNode find(int key){
         SplayNode z = root;
         while (z != null)
@@ -211,11 +247,17 @@ public class SplayTree<S extends Comparable<S>> {
         return null;
     }
 
-    /** Function for inorder traversal **/
+    /**
+     * Recorre el árbol en orden.
+     */
     public void inorder()
     {
         inorder(root);
     }
+    /**
+     * Método auxiliar para recorrer el árbol en orden.
+     * @param r el nodo inicial.
+     */
     private void inorder(SplayNode r)
     {
         if (r != null)
@@ -226,11 +268,18 @@ public class SplayTree<S extends Comparable<S>> {
         }
     }
 
-    /** Function for preorder traversal **/
+    /**
+     * Recorre el árbol en pre orden.
+     */
     public void preorder()
     {
         preorder(root);
     }
+    
+    /**
+     * Método auxiliar para recorrer en pre orden.
+     * @param r el nodo inicial.
+     */
     private void preorder(SplayNode r)
     {
         if (r != null)
@@ -241,11 +290,18 @@ public class SplayTree<S extends Comparable<S>> {
         }
     }
 
-    /** Function for postorder traversal **/
+    /**
+     * Recorre el árbol en post orden.
+     */
     public void postorder()
     {
         postorder(root);
     }
+    
+    /**
+     * Método auxiliar para recorrer el árbol en post orden.
+     * @param r el nodo inicial.
+     */
     private void postorder(SplayNode r)
     {
         if (r != null)
@@ -256,6 +312,9 @@ public class SplayTree<S extends Comparable<S>> {
         }
     }
     
+    /**
+     * @return la raíz del árbol.
+     */
     public SplayNode<S> root(){
     	return root;
     }
